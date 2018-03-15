@@ -1,24 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>PrivateSchoolProfiler | Log in</title>
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/bower_components/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/plugins/iCheck/square/blue.css">
-
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <?php $this->load->view('templates/head'); ?>
+    <title>PrivateSchoolProfiler | Log in</title>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -27,7 +11,10 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+      <p style="text-align: center">
+      <img src="assets/uploads/website/odin.jpg" class="logo" style="width: 80%; height: 80%; object-fit: contain">
+      </p>
+      <p class="login-box-msg">Sign in to start your session</p>
 
       <?php echo validation_errors(); ?>
     <!--<form action="" method="post"> -->
@@ -43,14 +30,14 @@
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
-            <label>
+            <label class="custom-checkbox">
               <input type="checkbox"> Remember Me
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
         </div>
         <!-- /.col -->
       </div>
@@ -83,5 +70,6 @@
     });
   });
 </script>
+
 </body>
 </html>

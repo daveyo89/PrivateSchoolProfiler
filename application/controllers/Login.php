@@ -18,7 +18,7 @@ class Login extends CI_Controller
             if ($this->form_validation->run() === FALSE) {
                 $this->load->view('login');
             } else {
-                $this->load->view('welcome_message');
+                redirect($this->index());
             }
         } else {
             $this->load->view('welcome_message');

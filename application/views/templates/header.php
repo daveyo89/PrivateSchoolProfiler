@@ -9,6 +9,6 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
-        <img src="assets/uploads/website/logo.jpg" class="logo" style="width: auto">
+        <img src="<?php echo base_url()?>assets/uploads/website/logo.jpg" class="logo" style="width: auto">
     </nav>
 </header>

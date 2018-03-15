@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
     <?php $this->load->view('templates/head'); ?>
-    <title>PrivateSchoolProfiler | Log in</title>
+    <title>PrivateSchoolProfiler | Welcome</title>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">
@@ -18,7 +18,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="content-wrapper">
         <section class="content-header">
             <h1>Welcome to CodeIgniter!</h1>
-            <a href=<?php echo base_url()."Logout"?>>Logout</a>
+            <br>
+            <h3>Select starting year</h3>
+            <?php echo validation_errors(); ?>
+            <!--<form action="" method="post"> -->
+            <?php echo form_open('Suser'); ?>
+            <div class="form-group has-feedback">
+                <input type="number" name="grade_year" class="ion-information-circled" placeholder="2017">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-flat">Continue</button>
+                <a class="btn btn-danger" href=<?php echo base_url()."Logout"?>>Logout</a>
+
+            </div>
         </section>
         <section class="content">
         <div id="body">
@@ -38,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 
+<?php $this->load->view('templates/footer'); ?>
 
 </body>
 </html>

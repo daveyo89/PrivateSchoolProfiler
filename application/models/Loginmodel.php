@@ -48,6 +48,7 @@ class Loginmodel extends CI_Model
      * @return mixed
      */
     public function UserDeleteByEmail($email, $role_table) {
+        //TODO deleted mezőt kéne updatelni csak és nem törölni.
         $sql = "DELETE FROM " . $role_table . " WHERE email = " . $email .";";
         return $this->db->query($sql);
     }

@@ -13,8 +13,10 @@ class Home extends CI_Controller {
 	{
         if($this->session->userdata('email') !== null) {
             $output = array();
+            $output['role'] = $this->session->userdata('role');
 
             $this->load->view('welcome_message', $output);
+
         } else {
             $this->load->view('login');
         }
