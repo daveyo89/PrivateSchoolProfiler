@@ -18,4 +18,13 @@ class Loginmodel extends CI_Model
         }
         return array();
     }
+
+    public function UserUpdateByEmail($email, array $data) {
+        # todo;
+    }
+
+    public function UserDeleteByEmail($email, $role_table) {
+        $sql = "DELETE FROM " . $role_table . " WHERE email = " . $email .";";
+        return $this->db->query($sql);
+    }
 }

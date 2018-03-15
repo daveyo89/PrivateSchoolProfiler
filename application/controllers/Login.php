@@ -31,7 +31,6 @@ class Login extends CI_Controller
         $password = $this->input->post('user_password');
         $this->load->model('Loginmodel');
         $auser = $this->Loginmodel->GetUserByEmail($email);
-        var_dump($auser);
         if (count($auser) > 0) {
             $hashpass = hash('sha512', $password . $auser[0]->salt);
             if ($hashpass === $auser[0]->password) {
