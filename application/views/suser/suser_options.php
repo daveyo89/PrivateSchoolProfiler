@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <?php $this->load->view('templates/head'); ?>
 
-    <title>PrivateSchoolProfiler | Welcome</title>
+    <title>PrivateSchoolProfiler | Options</title>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">
@@ -28,14 +28,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <a class="dropdown-item" href="<?php echo current_url()."/teachers/". $grade?>">Members</a>
                     <a class="dropdown-item" href="<?php echo current_url()."/evals" ."/" . $grade?>">Evaluations</a>
                     <a class="dropdown-item" href="<?php echo current_url()."/comments" ."/" . $grade?>">Comments</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
+                    <a class="dropdown-item" href="<?php echo current_url()."/progress_reports" ."/" . $grade?>">Progress Reports</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Another link</a>
+                    <a class="dropdown-item bg-orange" href="<?php echo current_url()."/add_eval" ."/" . $grade?>">Add Evaluation</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-teal-gradient" href="<?php echo current_url()."/add_teacher" ."/" . $grade?>">Add Teacher</a>
+
                 </div>
             </div>
             <a class="btn btn-danger" href="<?php echo base_url()?>">Back</a>
             <div id="body">
-                <a class="btn btn-primary" href="<?php echo current_url()."/teachers/".$grade?>">Teachers</a>
                 <a class="btn btn-primary" href="<?php echo current_url()."/parents/".$grade?>">Parents</a>
                 <a class="btn btn-primary" href="<?php echo current_url()."/suser/".$grade?>">Admins</a>
                 <a class="btn btn-primary" href="<?php echo current_url()."/children/".$grade?>">Children</a>
