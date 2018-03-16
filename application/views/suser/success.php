@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div id="body">
             <h1 class="login-logo" href="">SUCCESS</h1>
             <div class="full-width" style="text-align: center">
-                <a class="btn btn-success" href="<?php print(base_url() . "Suser/add_teacher")?>">Add another</a><br><br>
+                <a class="btn btn-success" href="<?php echo (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : base_url() . 'suser';?>">Add another</a><br><br>
                 <a class="btn btn-danger" href="<?php echo base_url() . "Suser"?>">Back</a>
             </div>
         </div>

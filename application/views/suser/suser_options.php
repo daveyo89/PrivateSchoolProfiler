@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <section class="content-header">
         </section>
         <section class="content">
+
             <div class="dropdown">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     Teachers
@@ -33,15 +34,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <a class="dropdown-item bg-orange" href="<?php echo current_url()."/add_eval" ."/" . $grade?>">Add Evaluation</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bg-teal-gradient" href="<?php echo current_url()."/add_teacher" ."/" . $grade?>">Add Teacher</a>
-
                 </div>
             </div>
-            <a class="btn btn-danger" href="<?php echo base_url()?>">Back</a>
-            <div id="body">
-                <a class="btn btn-primary" href="<?php echo current_url()."/parents/".$grade?>">Parents</a>
-                <a class="btn btn-primary" href="<?php echo current_url()."/suser/".$grade?>">Admins</a>
-                <a class="btn btn-primary" href="<?php echo current_url()."/children/".$grade?>">Children</a>
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Parents
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?php echo current_url()."/parents/". $grade?>">Parents</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-purple" href="<?php echo current_url()."/add_parent" ."/" . $grade?>">Add Parent</a>
+                </div>
             </div>
+
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Children
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?php echo current_url()."/children/". $grade?>">Children</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-olive" href="<?php echo current_url()."/add_child" ."/" . $grade?>">Add Child</a>
+                </div>
+            </div>
+
+            <div class="full-width" style="text-align: center">
+                <a class="btn btn-danger" href="<?php echo base_url()?>">Back</a>
+            </div>
+
         </section>
     </div>
 </div>

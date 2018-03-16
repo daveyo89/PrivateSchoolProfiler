@@ -77,10 +77,11 @@ class Suser extends CI_Controller
     public function progress_reports() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
+            $group_name = $this->getGroupNameSearch();
             $search_firstname = $this->getSearch();
             $grade = $this->getGrade();
             $quarter = $this->getQuarter();
-            $output['progress_posts'] = $this->Susermodel->getProgressReports($search_firstname, $grade, $quarter);
+            $output['progress_posts'] = $this->Susermodel->getProgressReports($search_firstname, $grade, $quarter, $group_name);
 
             if (isset($output['progress_posts'])) {
                 $this->load->view('suser/teacher_list', $output);
@@ -95,10 +96,12 @@ class Suser extends CI_Controller
     public function add_teacher() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
-            $email = "'" . $this->input->post('reg_email') . "'" ;
+            $email = $this->getEmail();
 
             $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
             $this->form_validation->set_rules('reg_email', 'Email', 'required|valid_email|is_unique[members.email]');
+            $this->form_validation->set_rules('reg_password', 'Password', 'trim|required|min_length[7]');
+            $this->form_validation->set_rules('reg_passconf', 'Password Confirmation', 'trim|required|matches[reg_password]');
             if (isset($email) && $this->form_validation->run() === TRUE) {
             $exists = $this->Susermodel->checkEmail($email);
             // If posted email address is not present in members view/table:
@@ -141,10 +144,43 @@ class Suser extends CI_Controller
     }
 
     public function add_eval() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+            $grade = $this->getGrade();
+            $search_firstname = $this->getSearch();
+            $output['eval_teachers'] = $this->Susermodel->getEvalTeachers($grade, $search_firstname);
 
+            $this->form_validation->set_rules('teacher_eval', 'Text', 'required');
+
+            $teacher_eval = $this->input->post('teacher_eval');
+            $teacher_eval_id = (int)$this->input->post('eval_teacher_id');
+
+            if (isset($teacher_eval) && isset($teacher_eval_id) && $this->form_validation->run() === TRUE ) {
+                $grade = $this->getGrade();
+                $this->Susermodel->add_eval($teacher_eval_id, $teacher_eval, $grade);
+
+                $this->load->view('suser/success', $output);
+            }
+
+            $this->load->view('suser/add_eval', $output);
+        }
     }
     public function success() {
-        $this->load->view('suser/success');
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $this->load->view('suser/success');
+        }
+    }
+
+    private function getEmail() {
+        $reg_email = "'" . $this->input->post('reg_email') . "'" ;
+
+        if (isset($reg_email) && $reg_email !== "") {
+            $this->session->set_userdata('reg_email', $reg_email);
+            $reg_email = $this->session->userdata('reg_email');
+        } else {
+            $reg_email = $this->session->userdata('reg_email');
+        }
+        return $reg_email;
     }
 
     private function getGrade() {
@@ -177,6 +213,17 @@ class Suser extends CI_Controller
         if (isset($search) && (!is_numeric($search)) && $search !== "") {
             $this->session->set_userdata('search', $_POST['search']);
             $search = "\"" . $this->session->userdata('search'). "\"";
+            return $search;
+        } else {
+            return $search = 0;
+        }
+    }
+    private function getGroupNameSearch() {
+        $search = $this->input->post('group_name_search');
+
+        if (isset($search) && (!is_numeric($search)) && $search !== "") {
+            $this->session->set_userdata('group_name_search', $_POST['group_name_search']);
+            $search = "\"" . $this->session->userdata('group_name_search'). "\"";
             return $search;
         } else {
             return $search = 0;

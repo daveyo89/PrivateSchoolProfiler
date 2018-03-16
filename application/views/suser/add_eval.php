@@ -21,8 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div id="body">
             <a class="btn btn-danger" href="<?php echo (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : base_url() . 'suser';?>">Back</a>
 
-           <?php
-           $this->load->view('form_templates/add_teacher_form'); ?>
+            <?php
+            $this->load->view('form_templates/add_eval_form'); ?>
         </div>
         </section>
     </div>

@@ -24,6 +24,10 @@
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
+                <input name="reg_passconf" type="password" class="form-control" placeholder="Confirm password">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
                 <input name="date_of_birth" type="date" class="form-control" placeholder="Date Of Birth">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>

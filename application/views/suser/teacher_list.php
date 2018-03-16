@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Child Picture</th>
                             <th>Class</th>
                             <th>Class Picture</th>
-                            <th> # </th>
+                            <th>Q#</th>
                         </tr>
                         <?php foreach ($progress_posts as $item) {
                             if (!isset($item->tcp)){$item->tcp = "crop.jpg";}
@@ -147,6 +147,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/children/" . $item->cpp;?>"></td>
                                 <td><?php echo $item->sgn;?></td>
                                 <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/groups/" . $item->sgp;?>"></td>
+                                <td><?php echo $item->quarter;?></td>
+
                             </tr>
                         <?php } ?>
 

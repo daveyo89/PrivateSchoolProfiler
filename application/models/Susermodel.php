@@ -20,7 +20,7 @@ class Susermodel extends CI_Model
 			LEFT JOIN school_group sg ON(tc.group_id = sg.id)
 			WHERE sg.grade = " . $grade . " AND
 			tc.firstname = ". $search_firstname . "
-			ORDER BY firstname;";
+			ORDER BY tc.id;";
         $query = $this->db->query($sql);
         $result = array();
 
@@ -39,11 +39,11 @@ class Susermodel extends CI_Model
      * @return array
      */
     public function getTeacherEvalsById($grade=2017, $search_firstname = 0) {
-        $sql = "SELECT * FROM teacher tc
-		RIGHT JOIN teacher_eval te ON(tc.id = te.teacher_id)
-        WHERE te.eval_grade = ". $grade ." 
-        AND tc.firstname = " . $search_firstname . " 
-		";
+        $sql = "SELECT tc.id tid, firstname, lastname, email, crd, dob, picture_path, group_id, deleted, 
+                       te.id, te.teacher_eval, te.crd_eval, te.teacher_id, te.eval_grade FROM teacher tc
+                LEFT JOIN teacher_eval te ON (tc.id = te.teacher_id)
+                WHERE te.eval_grade = ". $grade ." 
+                AND firstname = " . $search_firstname . " ";
         $query = $this->db->query($sql);
         $result = array();
 
@@ -83,7 +83,7 @@ class Susermodel extends CI_Model
         return array();
     }
 
-    public function getProgressReports($search_firstname, $grade, $quarter) {
+    public function getProgressReports($search_firstname, $grade, $quarter, $group_name) {
         $sql = "SELECT pp.id, pp.progress_post ppp, pp.child_id pcid, 
                     pp.teacher_id ptid, pp.crd_pp, pp.updated, pp.quarter, pp.grade, 
                     tc.firstname tfn, tc.lastname tln, tc.picture_path tcp,
@@ -96,6 +96,7 @@ class Susermodel extends CI_Model
                 WHERE pp.grade = ". $grade ." 
                 AND pp.quarter = " . $quarter . " 
                 AND tc.firstname = ". $search_firstname ."
+                AND sg.group_name = " . $group_name . "
                 ORDER BY ch.group_id ";
 
         $query = $this->db->query($sql);
@@ -121,6 +122,34 @@ class Susermodel extends CI_Model
                 'salt'          =>$reg_salt,
             );
             $this->db->insert('teacher', $insertArray);
+        }
+    }
+
+    public function getEvalTeachers($grade, $search_firstname) {
+        $sql = "SELECT tc.id tid, firstname, lastname, email, crd, dob, picture_path, group_id, deleted,grade, 
+                       te.id, te.teacher_eval, te.crd_eval, te.teacher_id, te.eval_grade FROM teacher tc
+                LEFT JOIN teacher_eval te ON (tc.id = te.teacher_id)
+                WHERE tc.grade = ". $grade . " 
+                AND firstname = ". $search_firstname." 
+                GROUP BY tid";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
+
+    public function add_eval($tid, $teacher_eval, $grade){
+        if (isset($tid)) {
+            $insertArray = array(
+                'teacher_id' => $tid,
+                'teacher_eval' => $teacher_eval,
+                'eval_grade' => $grade
+            );
+            $this->db->insert('teacher_eval', $insertArray);
         }
     }
 
