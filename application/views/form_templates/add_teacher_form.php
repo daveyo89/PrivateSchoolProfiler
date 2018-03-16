@@ -1,4 +1,3 @@
-<?php echo validation_errors(); ?>
 <!--<form action="" method="post"> -->
 <?php echo form_open(current_url()); ?>
 <div class="register-box-body">
@@ -6,7 +5,7 @@
         <p class="login-box-msg">Register a new teacher</p>
 
         <?php echo validation_errors(); ?>
-        <?php echo form_open_multipart('suser/add_teacher/do_upload');?>
+        <?php echo form_open_multipart('add_teacher/do_upload');?>
         <form role="form" name="register_teacher_form" action="<?php echo 'suser/add_teacher'?>" method="post">
             <div class="form-group has-feedback">
                 <input name="firstname" type="text" class="form-control" placeholder="First Name">
@@ -18,6 +17,10 @@
             </div>
             <div class="form-group has-feedback">
                 <input name="reg_email" type="email" class="form-control" placeholder="Email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input name="reg_password" type="password" class="form-control" placeholder="Password">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

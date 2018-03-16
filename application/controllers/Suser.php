@@ -98,13 +98,13 @@ class Suser extends CI_Controller
             $email = "'" . $this->input->post('reg_email') . "'" ;
 
             $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
-            $this->form_validation->set_rules('reg_email', 'Email', 'required|valid_email');
+            $this->form_validation->set_rules('reg_email', 'Email', 'required|valid_email|is_unique[members.email]');
             if (isset($email) && $this->form_validation->run() === TRUE) {
             $exists = $this->Susermodel->checkEmail($email);
             // If posted email address is not present in members view/table:
                 if(!isset($exists[0]->email)) {
                     $config = array(
-                        'upload_path' => "assets/uploads/",
+                        'upload_path' => "assets/uploads/images/teachers/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
                         'overwrite' => TRUE,
                         'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
@@ -113,25 +113,25 @@ class Suser extends CI_Controller
                     );
                     $this->load->library('upload', $config);
 
-
-
                     $firstname = $this->input->post('firstname'); //Returns radio button (group_id)
                     $lastname = $this->input->post('lastname');
                     $picture_path = $this->input->post('picture');
                     $reg_email = $this->input->post('reg_email');
-                    $schoolgroup_id = (int)$this->input->post('schoolgroup_id');
-                    var_dump($firstname); "\n";
-                    var_dump($lastname);"\n";
-                    var_dump($picture_path); "\n";
-                    var_dump($reg_email); "\n";
-                    var_dump($schoolgroup_id); "\n";
+                    $reg_password = $this->hashPass($this->input->post('reg_password'));
+                    $password = $reg_password['password'];
+                    $reg_salt = $reg_password['salt'];
 
-                    if($this->upload->do_upload($picture_path))
+                    $schoolgroup_id = (int)$this->input->post('schoolgroup_id');
+                    $date_of_birth = $this->input->post('date_of_birth');
+                    $this->Susermodel->add_teacher($firstname, $lastname, $picture_path, $reg_email,$date_of_birth ,$schoolgroup_id,$password, $reg_salt);
+
+                    /*if($this->upload->do_upload($picture_path))
                     {
                         $output['upload_data'] = $this->upload->data();
-                        var_dump($output['upload_data']);
                         $this->load->view('suser/add_teacher',$output);
-                    }
+                    }*/
+                    $this->load->view('suser/success', $output);
+
                 }
            }
             $this->load->view('suser/add_teacher', $output);
@@ -142,6 +142,9 @@ class Suser extends CI_Controller
 
     public function add_eval() {
 
+    }
+    public function success() {
+        $this->load->view('suser/success');
     }
 
     private function getGrade() {
@@ -179,4 +182,18 @@ class Suser extends CI_Controller
             return $search = 0;
         }
     }
+
+    private function hashPass($password) {
+        try {
+            $salt = random_int(100, 999);
+            $password = hash('sha512', $password . $salt);
+        } catch (Exception $e) {
+            print $e;
+        }
+        return array(
+            'password' => $password,
+            'salt' => $salt
+        );
+    }
+
 }

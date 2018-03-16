@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Susermodel
+ */
 class Susermodel extends CI_Model
 {
     public function __construct()
@@ -105,16 +108,19 @@ class Susermodel extends CI_Model
         return array();
     }
 
-    public function add_teacher() {
-        if((int)$child_id > 0){
-            $updateArray = array(
-                'progress_post'     =>$memo,
-                'child_id'          =>$child_id,
-                'teacher_id'        =>$teacher_id,
-                'schoolgroup_id'    =>$schoolgroup_id
+    public function add_teacher($firstname, $lastname, $picture_path, $reg_email,$date_of_birth ,$schoolgroup_id,$password, $reg_salt) {
+        if(isset($reg_email) > 0){
+            $insertArray = array(
+                'firstname'     =>$firstname,
+                'lastname'      =>$lastname,
+                'picture_path'  =>$picture_path,
+                'email'         =>$reg_email,
+                'group_id'      =>$schoolgroup_id,
+                'dob'           =>$date_of_birth,
+                'password'      =>$password,
+                'salt'          =>$reg_salt,
             );
-
-            $this->db->insert('progress_post', $updateArray);
+            $this->db->insert('teacher', $insertArray);
         }
     }
 
