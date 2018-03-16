@@ -82,6 +82,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </table>
 
                 <?php } ?>
+
+                <?php if(isset($comments)) {
+                    ?>
+                    <table class="table table-bordered table-info" style="width: 100%;">
+                        <tr class="table table-primary">
+                            <th>Full Name</th>
+                            <th>Comment</th>
+                            <th>Picture</th>
+                            <th>Child Name</th>
+                            <th>Comment created on</th>
+                            <th>Class</th>
+
+                        </tr>
+                        <?php foreach ($comments as $item) {
+                            if (!isset($item->pcp)){$item->pcp = "crop.jpg";}
+                            if (!isset($item->sggp)){$item->sggp = "nophoto.png";}
+                            ?>
+                            <tr class="table-secondary">
+                                <td><?php echo $item->fn . " " . $item->ln;?></td>
+                                <td><?php echo $item->tcc;?></td>
+                                <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/teachers/" . $item->pcp;?>"></td>
+                                <td><?php echo $item->cfn . " " . $item->cln;?></td>
+                                <td><?php echo date('Y-m-d H:m',strtotime($item->crd_cm));?></td>
+                                <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/groups/" . $item->sggp;?>"></td>
+                            </tr>
+                        <?php } ?>
+
+                    </table>
+
+                <?php } ?>
             </div>
         </section>
     </div>

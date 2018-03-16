@@ -25,8 +25,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     Teachers
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?php echo current_url()."/teachers/".$grade?>">Members</a>
+                    <a class="dropdown-item" href="<?php echo current_url()."/teachers/". $grade?>">Members</a>
                     <a class="dropdown-item" href="<?php echo current_url()."/evals" ."/" . $grade?>">Evaluations</a>
+                    <a class="dropdown-item" href="<?php echo current_url()."/comments" ."/" . $grade?>">Comments</a>
                     <a class="dropdown-item" href="#">Link 3</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Another link</a>

@@ -8,14 +8,22 @@ class Suser extends CI_Controller
         $this->load->model(array('Susermodel'));
     }
 
+    public function getGrade() {
+        $grade = $this->input->post('grade_year');
+
+        if (isset($_POST['grade_year'])) {
+            $this->session->set_userdata('grade_year', $_POST['grade_year']);
+            $grade = $this->session->userdata('grade_year');
+        } else {
+            $grade = $this->session->userdata('grade_year');
+        }
+        return $grade;
+    }
+
     public function index() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
-            if (isset($_POST['grade_year'])) {
-                $grade = $this->session->set_userdata('grade_year', $_POST['grade_year']);
-            } else {
-                $grade = $this->session->userdata('grade_year');
-            }
+            $grade = $this->getGrade();
             $output['grade'] = $grade;
             $this->load->view('suser/suser_options', $output);
         } else {
@@ -26,7 +34,7 @@ class Suser extends CI_Controller
     public function teachers() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
-            $grade = $this->session->userdata('grade_year');
+            $grade = $this->getGrade();
             $output['grade'] = $grade;
             if ($grade) {
                 $output['teacher_list'] = $this->Susermodel->getOngoingTeachersGroups($grade);
@@ -40,20 +48,43 @@ class Suser extends CI_Controller
     public function evals($id =-1) {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
-            $grade = $this->session->userdata('grade_year');
+            $grade = $this->getGrade();
 
             $output['teacher_eval'] = $this->Susermodel->getTeacherEvalsById($id, $grade);
-
-            if ($id > 0) {
-                var_dump($output);
+            if (isset($output['teacher_eval'])) {
                 $this->load->view('suser/teacher_list', $output);
+            } else {
+                $this->load->view('suser');
             }
 
+        } else {
+            $this->load->view('login');
         }
     }
 
     public function comments() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+            if (isset($_POST['deleted'])) {
+                $this->session->set_userdata('deleted', $_POST['deleted']);
+                $deleted = $this->session->userdata('deleted');
+            } else $deleted = 2;
+            if (isset($_POST['search_firstname'])) {
+                $this->session->set_userdata('search_firstname', $_POST['search_firstname']);
+                $search_firstname =  "\"" . $this->session->userdata('search_firstname') . "\"";
+            } else $search_firstname = 0;
 
+            $grade = $this->getGrade();
+
+            $output['comments'] = $this->Susermodel->getTeacherCommentsById($deleted, $search_firstname, $grade);
+            if (isset($output['comments'])) {
+                $this->load->view('suser/teacher_list', $output);
+            } else {
+                $this->load->view('suser');
+            }
+        } else {
+            $this->load->view('login');
+        }
     }
 
     public function preports() {
