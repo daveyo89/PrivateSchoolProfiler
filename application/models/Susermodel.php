@@ -13,14 +13,43 @@ class Susermodel extends CI_Model
     /**
      * @param $grade
      * Grade tells us the year the class started, for example: 2017 means 2017/2018 class.
+     * @param $search_firstname
+     * @param $group_name
      * @return array
      */
-    public function getOngoingTeachersGroups($grade, $search_firstname = 0) {
+    public function getOngoingTeachersGroups($grade, $search_firstname, $group_name) {
         $sql = "SELECT * FROM teacher tc 
-			LEFT JOIN school_group sg ON(tc.group_id = sg.id)
-			WHERE sg.grade = " . $grade . " AND
-			tc.firstname = ". $search_firstname . "
+			LEFT JOIN school_group sg 
+			ON(tc.group_id = sg.id)
+			WHERE sg.grade = " . $grade . " 
+			AND tc.firstname = ". $search_firstname . " 
+			AND sg.group_name = ". $group_name . " 
 			ORDER BY tc.id;";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
+
+    /**
+     * @param $grade
+     * @param $search_firstname
+     * @param $group_name
+     * @return array
+     */
+    public function getOngoingChildrenGroups($grade, $search_firstname, $group_name) {
+        $sql = "SELECT ch.id cid, firstname, lastname, dob, group_id, picture_path, crd_ch, ch.grade,
+	    sg.id sgid, group_name, group_picture, sg.grade sgrade
+			FROM child ch 
+			LEFT JOIN school_group sg ON(ch.group_id = sg.id)
+			WHERE sg.grade = ". $grade ."
+            AND ch.firstname = " . $search_firstname . "
+            AND sg.group_name = ". $group_name . " 
+			ORDER BY ch.id;";
         $query = $this->db->query($sql);
         $result = array();
 
@@ -80,7 +109,7 @@ class Susermodel extends CI_Model
      * @param int $grade
      * @return array
      */
-    public function getTeacherCommentsById($deleted = 2, $search_firstname = 0, $grade = 2017) {
+    public function getTeacherCommentsById($deleted = 2, $search_firstname, $grade) {
         $sql = "SELECT tc.firstname fn, tc.lastname ln, tc.picture_path pcp, tc.deleted, teacher_comment tcc, teacher_id 
                 tcid, crd_cm, cm.child_id cid, ch.firstname cfn, ch.lastname cln, ch.group_id cgid, sg.group_name sggn, 
                 sg.group_picture sggp, sg.grade sgg 
@@ -129,6 +158,23 @@ class Susermodel extends CI_Model
         return array();
     }
 
+    public function getEvalTeachers($grade, $search_firstname) {
+        $sql = "SELECT tc.id tid, firstname, lastname, email, crd, dob, picture_path, group_id, deleted,grade, 
+                       te.id, te.teacher_eval, te.crd_eval, te.teacher_id, te.eval_grade FROM teacher tc
+                LEFT JOIN teacher_eval te ON (tc.id = te.teacher_id)
+                WHERE tc.grade = ". $grade . " 
+                AND firstname = ". $search_firstname." 
+                GROUP BY tid";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
+
     public function add_teacher($firstname, $lastname, $picture_path, $reg_email,$date_of_birth ,$schoolgroup_id,$password, $reg_salt) {
         if(isset($reg_email) > 0){
             $insertArray = array(
@@ -160,21 +206,18 @@ class Susermodel extends CI_Model
         }
     }
 
-    public function getEvalTeachers($grade, $search_firstname) {
-        $sql = "SELECT tc.id tid, firstname, lastname, email, crd, dob, picture_path, group_id, deleted,grade, 
-                       te.id, te.teacher_eval, te.crd_eval, te.teacher_id, te.eval_grade FROM teacher tc
-                LEFT JOIN teacher_eval te ON (tc.id = te.teacher_id)
-                WHERE tc.grade = ". $grade . " 
-                AND firstname = ". $search_firstname." 
-                GROUP BY tid";
-        $query = $this->db->query($sql);
-        $result = array();
-
-        if ($query->num_rows() > 0) {
-            $result = $query->result();
-            return $result;
+    public function add_child($firstname, $lastname, $dob, $group_id, $picture_path, $grade) {
+        if(isset($firstname, $lastname, $dob, $group_id)){
+            $insertArray = array(
+                'firstname'     =>$firstname,
+                'lastname'      =>$lastname,
+                'dob'         =>$dob,
+                'group_id'      =>$group_id,
+                'picture_path'      =>$picture_path,
+                'grade'          =>$grade,
+            );
+            $this->db->insert('child', $insertArray);
         }
-        return array();
     }
 
     public function add_eval($tid, $teacher_eval, $grade){
@@ -201,8 +244,13 @@ class Susermodel extends CI_Model
         return array();
     }
 
-    public function checkEmail($email) {
-        $sql = "SELECT email FROM members where email = ". $email ." ";
+    public function getTeacherById($teacher_id) {
+        $sql = "SELECT tc.id tid, firstname, lastname, email, password, salt, crd, dob, picture_path, group_id,
+                       deleted, tc.grade, sg.id sgid, group_name, group_picture, sg.grade ggrd 
+                       FROM teacher tc
+                       LEFT JOIN school_group sg 
+                       ON(group_id = sg.id)
+                       WHERE tc.id = ". $teacher_id .";";
         $query = $this->db->query($sql);
         $result = array();
 
@@ -213,9 +261,32 @@ class Susermodel extends CI_Model
         return array();
     }
 
+    public function getEveryTeacher() {
+        $sql = "SELECT tc.id tid, firstname, lastname, email, password, salt, crd, dob, picture_path, group_id,
+                       deleted, tc.grade, sg.id sgid, group_name, group_picture, sg.grade ggrd 
+                       FROM teacher tc
+                       LEFT JOIN school_group sg 
+                       ON(group_id = sg.id);";
+        $query = $this->db->query($sql);
+        $result = array();
 
-    public function getEveryParent() {
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
 
+    public function checkEmail($email) {
+        $sql = "SELECT email FROM members where email = ". $email ." ";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
     }
 
     public function getEveryChild($grade) {

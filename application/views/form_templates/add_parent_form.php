@@ -37,12 +37,14 @@
             </div>
 
             <div class="form-group">
+                <select class="select2-container" name="child_id">
                 <?php
                 foreach ($children as $child) {
                     ?>
-                    <input type="radio" name="child_id" value="<?php echo $child->id?>"> <?php echo ucfirst($child->firstname . " " . $child->lastname)?><br>
+                    <option name="child_id" value="<?php echo $child->id?>"> <?php echo ucfirst($child->firstname . " " . $child->lastname)?><br>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 <?php } ?>
+                </select>
             </div>
 
             <div class="row">

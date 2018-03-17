@@ -23,10 +23,10 @@ class Suser extends CI_Controller
             $output = array();
             $grade = $this->getGrade();
             $search_firstname = $this->getSearch();
-
+            $group_name =$this->getGroupNameSearch();
             $output['grade'] = $grade;
             if ($grade) {
-                $output['teacher_list'] = $this->Susermodel->getOngoingTeachersGroups($grade, $search_firstname);
+                $output['teacher_list'] = $this->Susermodel->getOngoingTeachersGroups($grade, $search_firstname, $group_name);
             $this->load->view('suser/teacher_list', $output);
             }
         } else {
@@ -46,6 +46,23 @@ class Suser extends CI_Controller
                 $output['parent_list'] = $this->Susermodel->getOngoingParentsGroups($grade, $search_firstname, $group_name);
 
                 $this->load->view('suser/parent_list', $output);
+            }
+        } else {
+            $this->load->view('welcome_message');
+        }
+    }
+
+    public function children() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+            $grade = $this->getGrade();
+            $search_firstname = $this->getSearch();
+            $group_name = $this->getGroupNameSearch();
+
+            $output['grade'] = $grade;
+            if ($grade) {
+                $output['child_list'] = $this->Susermodel->getOngoingChildrenGroups($grade, $search_firstname, $group_name);
+                $this->load->view('suser/child_list', $output);
             }
         } else {
             $this->load->view('welcome_message');
@@ -161,6 +178,21 @@ class Suser extends CI_Controller
         }
     }
 
+    public function edit_teacher() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+
+            $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
+            $selected_teacher_id = $this->getSelectedTeacher();
+
+            if($selected_teacher_id) {
+                $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
+            }
+
+            $this->load->view('suser/edit_teacher', $output);
+        }
+    }
+
     public function add_parent() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
@@ -210,7 +242,52 @@ class Suser extends CI_Controller
         }
     }
 
+    public function add_child() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
 
+            $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
+            $this->form_validation->set_rules('firstname', 'First name', 'required');
+            $this->form_validation->set_rules('lastname', 'Last name', 'required');
+            $this->form_validation->set_rules('date_of_birth', 'Date of birth', 'required');
+            $this->form_validation->set_rules('reg_grade', 'Starting year', 'required');
+            $this->form_validation->set_rules('reg_group_id', 'Select Class', 'required');
+
+            if (isset($output['groups']) && $this->form_validation->run() === TRUE) {
+                if(!isset($exists[0]->email)) {
+                    $config = array(
+                        'upload_path' => "assets/uploads/images/teachers/",
+                        'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                        'overwrite' => TRUE,
+                        'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                        'max_height' => "768",
+                        'max_width' => "1024"
+                    );
+                    $this->load->library('upload', $config);
+
+                    $firstname = $this->input->post('firstname'); //Returns radio button (group_id)
+                    $lastname = $this->input->post('lastname');
+                    $date_of_birth = $this->input->post('date_of_birth');
+                    $reg_group_id = $this->input->post('reg_group_id');
+                    $picture_path = $this->input->post('picture');
+                    $reg_grade = $this->input->post('reg_grade');
+
+                    $this->Susermodel->add_child($firstname, $lastname, $date_of_birth, $reg_group_id, $picture_path, $reg_grade);
+
+                    if($this->upload->do_upload($picture_path))
+                    {
+                        $output['upload_data'] = $this->upload->data();
+                        $this->load->view('suser/success', $output);
+                    }
+                    $this->load->view('suser/success', $output);
+
+                }
+            }
+            $this->load->view('suser/add_child', $output);
+        } else {
+            $this->load->view('login');
+        }
+    }
 
     public function add_eval() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
@@ -263,6 +340,20 @@ class Suser extends CI_Controller
             $grade = $this->session->userdata('grade_year');
         }
         return $grade;
+    }
+
+    private function getSelectedTeacher() {
+        $selected_teacher = $this->input->post('edit_teacher_id');
+
+        if (isset($selected_teacher)) {
+            $this->session->set_userdata('selected_teacher', $selected_teacher);
+            $selected_teacher = $this->session->userdata('selected_teacher');
+        } elseif ($selected_teacher == "") {
+            $this->session->unset_userdata('edit_teacher_id');
+        } else {
+            $selected_teacher = $this->session->userdata('selected_teacher');
+        }
+        return $selected_teacher;
     }
 
     private function getQuarter() {

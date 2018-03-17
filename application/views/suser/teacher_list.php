@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php $this->load->view('templates/head'); ?>
     <title>PrivateSchoolProfiler | Listings</title>
 </head>
-<body class="hold-transition skin-green-light sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
     <?php $this->load->view('templates/header'); ?>
     <?php $this->load->view('templates/userpanel'); ?>
