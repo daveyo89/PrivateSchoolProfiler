@@ -34,6 +34,24 @@ class Suser extends CI_Controller
         }
     }
 
+    public function parents() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+            $grade = $this->getGrade();
+            $search_firstname = $this->getSearch();
+            $group_name = $this->getGroupNameSearch();
+
+            $output['grade'] = $grade;
+            if ($grade) {
+                $output['parent_list'] = $this->Susermodel->getOngoingParentsGroups($grade, $search_firstname, $group_name);
+
+                $this->load->view('suser/parent_list', $output);
+            }
+        } else {
+            $this->load->view('welcome_message');
+        }
+    }
+
     public function evals($id =-1) {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
@@ -128,11 +146,11 @@ class Suser extends CI_Controller
                     $date_of_birth = $this->input->post('date_of_birth');
                     $this->Susermodel->add_teacher($firstname, $lastname, $picture_path, $reg_email,$date_of_birth ,$schoolgroup_id,$password, $reg_salt);
 
-                    /*if($this->upload->do_upload($picture_path))
+                    if($this->upload->do_upload($picture_path))
                     {
                         $output['upload_data'] = $this->upload->data();
-                        $this->load->view('suser/add_teacher',$output);
-                    }*/
+                        $this->load->view('suser/success', $output);
+                    }
                     $this->load->view('suser/success', $output);
 
                 }
@@ -165,6 +183,7 @@ class Suser extends CI_Controller
             $this->load->view('suser/add_eval', $output);
         }
     }
+
     public function success() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $this->load->view('suser/success');
@@ -218,6 +237,7 @@ class Suser extends CI_Controller
             return $search = 0;
         }
     }
+
     private function getGroupNameSearch() {
         $search = $this->input->post('group_name_search');
 

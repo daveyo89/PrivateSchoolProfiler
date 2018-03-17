@@ -31,6 +31,26 @@ class Susermodel extends CI_Model
         return array();
     }
 
+    public function getOngoingParentsGroups($grade, $search_firstname, $group_name) {
+        $sql = "SELECT pa.id pid, pa.firstname paf, pa.lastname pal, pa.email, pa.picture_path papp, pa.child_id pcid,
+                       ch.id cid, ch.firstname chf, ch.lastname chl, ch.dob, ch.group_id, ch.picture_path chpp, ch.crd_ch,
+                       sg.id sgid, sg.group_name sgname, sg.group_picture sggp, sg.grade
+                FROM privateschoolprofiler.parent pa
+                left JOIN child ch ON(pa.child_id = ch.id)
+                right join school_group sg ON(ch.group_id = sg.id)
+                where ch.firstname = ". $search_firstname ." and
+                sg.group_name = ". $group_name . " and
+                sg.grade = " . $grade . " ";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
+
     /**
      * @param $grade
      *

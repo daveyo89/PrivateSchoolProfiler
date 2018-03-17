@@ -26,14 +26,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     Teachers
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?php echo current_url()."/teachers/". $grade?>">Members</a>
-                    <a class="dropdown-item" href="<?php echo current_url()."/evals" ."/" . $grade?>">Evaluations</a>
-                    <a class="dropdown-item" href="<?php echo current_url()."/comments" ."/" . $grade?>">Comments</a>
-                    <a class="dropdown-item" href="<?php echo current_url()."/progress_reports" ."/" . $grade?>">Progress Reports</a>
+                    <a class="dropdown-item" href="<?php echo current_url() . "/teachers" . "/" . $grade ?>">Members</a>
+                    <a class="dropdown-item"
+                       href="<?php echo current_url() . "/evals" . "/" . $grade ?>">Evaluations</a>
+                    <a class="dropdown-item"
+                       href="<?php echo current_url() . "/comments" . "/" . $grade ?>">Comments</a>
+                    <a class="dropdown-item" href="<?php echo current_url() . "/progress_reports" . "/" . $grade ?>">Progress
+                        Reports</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item bg-orange" href="<?php echo current_url()."/add_eval" ."/" . $grade?>">Add Evaluation</a>
+                    <a class="dropdown-item bg-orange" href="<?php echo current_url() . "/add_eval" . "/" . $grade ?>">Add
+                        Evaluation</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item bg-teal-gradient" href="<?php echo current_url()."/add_teacher" ."/" . $grade?>">Add Teacher</a>
+                    <a class="dropdown-item bg-teal-gradient"
+                       href="<?php echo current_url() . "/add_teacher" . "/" . $grade ?>">Add Teacher</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -41,9 +46,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     Parents
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?php echo current_url()."/parents/". $grade?>">Parents</a>
+                    <a class="dropdown-item" href="<?php echo current_url() . "/parents/" . $grade ?>">Parents</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item bg-purple" href="<?php echo current_url()."/add_parent" ."/" . $grade?>">Add Parent</a>
+                    <a class="dropdown-item bg-purple"
+                       href="<?php echo current_url() . "/add_parent" . "/" . $grade ?>">Add Parent</a>
                 </div>
             </div>
 
@@ -52,14 +58,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     Children
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?php echo current_url()."/children/". $grade?>">Children</a>
+                    <a class="dropdown-item" href="<?php echo current_url() . "/children/" . $grade ?>">Children</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item bg-olive" href="<?php echo current_url()."/add_child" ."/" . $grade?>">Add Child</a>
+                    <a class="dropdown-item bg-olive" href="<?php echo current_url() . "/add_child" . "/" . $grade ?>">Add
+                        Child</a>
                 </div>
             </div>
 
             <div class="full-width" style="text-align: center">
-                <a class="btn btn-danger" href="<?php echo base_url()?>">Back</a>
+                <a class="btn btn-danger" href="<?php echo base_url() ?>">Back</a>
             </div>
 
         </section>
