@@ -161,6 +161,57 @@ class Suser extends CI_Controller
         }
     }
 
+    public function add_parent() {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+            $email = $this->getEmail();
+
+            $output['children'] = $this->Susermodel->getEveryChild($this->getGrade());
+            $this->form_validation->set_rules('reg_email', 'Email', 'required|valid_email|is_unique[members.email]');
+            $this->form_validation->set_rules('reg_password', 'Password', 'trim|required|min_length[7]');
+            $this->form_validation->set_rules('reg_passconf', 'Password Confirmation', 'trim|required|matches[reg_password]');
+            if (isset($email) && $this->form_validation->run() === TRUE) {
+                $exists = $this->Susermodel->checkEmail($email);
+                // If posted email address is not present in members view/table:
+                if(!isset($exists[0]->email)) {
+                    $config = array(
+                        'upload_path' => "assets/uploads/images/teachers/",
+                        'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                        'overwrite' => TRUE,
+                        'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                        'max_height' => "768",
+                        'max_width' => "1024"
+                    );
+                    $this->load->library('upload', $config);
+
+                    $firstname = $this->input->post('firstname'); //Returns radio button (group_id)
+                    $lastname = $this->input->post('lastname');
+                    $picture_path = $this->input->post('picture');
+                    $reg_email = $this->input->post('reg_email');
+                    $reg_password = $this->hashPass($this->input->post('reg_password'));
+                    $password = $reg_password['password'];
+                    $reg_salt = $reg_password['salt'];
+
+                    $child_id = (int)$this->input->post('child_id');
+                    $this->Susermodel->add_parent($firstname, $lastname, $picture_path, $reg_email ,$child_id,$password, $reg_salt);
+
+                    if($this->upload->do_upload($picture_path))
+                    {
+                        $output['upload_data'] = $this->upload->data();
+                        $this->load->view('suser/success', $output);
+                    }
+                    $this->load->view('suser/success', $output);
+
+                }
+            }
+            $this->load->view('suser/add_parent', $output);
+        } else {
+            $this->load->view('login');
+        }
+    }
+
+
+
     public function add_eval() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
@@ -222,6 +273,7 @@ class Suser extends CI_Controller
             $quarter = (int)$this->session->userdata('quarter');
             return $quarter;
         } else {
+
             return $quarter = 1;
         }
     }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="<?php print(base_url()); ?>assets/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php print(base_url()); ?>assets/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?php print(base_url()); ?>assets/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/dist/css/skins/skin-green-light.min.css">
+    <link rel="stylesheet" href="<?php print(base_url()); ?>assets/dist/css/skins/_all-skins.css">
     <link rel="stylesheet" href="<?php print(base_url()); ?>assets/plugins/iCheck/square/blue.css">
 
 

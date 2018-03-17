@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
     <?php $this->load->view('templates/head'); ?>
-    <title>PrivateSchoolProfiler | Listings</title>
+    <title>PrivateSchoolProfiler | Register Teacher</title>
 </head>
-<body class="hold-transition skin-green-light sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
     <?php $this->load->view('templates/header'); ?>
     <?php $this->load->view('templates/userpanel'); ?>
@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <div id="body">
             <a class="btn btn-danger" href="<?php echo (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : base_url() . 'suser';?>">Back</a>
+            <a class="btn btn-google" href="<?php echo base_url() . 'suser/teachers/';?>">List</a>
 
            <?php
            $this->load->view('form_templates/add_teacher_form'); ?>

@@ -2,7 +2,7 @@
 <?php echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
-        <p class="login-box-msg">Add new evaluation</p>
+        <p class="login-box-msg">Add new Evaluation</p>
         <?php echo validation_errors();?>
         <form role="form" name="add_eval_form" action="<?php echo 'suser/add_eval'?>" method="post">
             <div class="form-group">

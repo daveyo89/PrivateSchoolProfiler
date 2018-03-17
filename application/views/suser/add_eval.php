@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
     <?php $this->load->view('templates/head'); ?>
-    <title>PrivateSchoolProfiler | Listings</title>
+    <title>PrivateSchoolProfiler | Evaluations</title>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">

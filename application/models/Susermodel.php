@@ -145,6 +145,21 @@ class Susermodel extends CI_Model
         }
     }
 
+    public function add_parent($firstname, $lastname, $picture_path, $reg_email ,$child_id,$password, $reg_salt) {
+        if(isset($reg_email) > 0){
+            $insertArray = array(
+                'firstname'     =>$firstname,
+                'lastname'      =>$lastname,
+                'picture_path'  =>$picture_path,
+                'email'         =>$reg_email,
+                'child_id'      =>$child_id,
+                'password'      =>$password,
+                'salt'          =>$reg_salt,
+            );
+            $this->db->insert('parent', $insertArray);
+        }
+    }
+
     public function getEvalTeachers($grade, $search_firstname) {
         $sql = "SELECT tc.id tid, firstname, lastname, email, crd, dob, picture_path, group_id, deleted,grade, 
                        te.id, te.teacher_eval, te.crd_eval, te.teacher_id, te.eval_grade FROM teacher tc
@@ -203,8 +218,17 @@ class Susermodel extends CI_Model
 
     }
 
-    public function getEveryChild() {
+    public function getEveryChild($grade) {
+        $sql = "SELECT * FROM child
+                WHERE grade = ". $grade ." ";
+        $query = $this->db->query($sql);
+        $result = array();
 
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
     }
 
 }
