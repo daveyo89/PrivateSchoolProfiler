@@ -1,7 +1,6 @@
 <?php echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
-        <?php echo validation_errors(); ?>
         <?php echo form_open_multipart('select_teacher');?>
         <form role="form" name="edit_form" id="regForm" action="<?php echo 'suser/edit_teacher'?>">
             <h1 class="bg-light-blue left-side">Edit teacher:</h1>

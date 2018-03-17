@@ -8,7 +8,8 @@ class Suser extends CI_Controller
         $this->load->model(array('Susermodel'));
     }
 
-    public function index() {
+    public function index()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $output['grade'] = $this->getGrade();
@@ -18,23 +19,25 @@ class Suser extends CI_Controller
         }
     }
 
-    public function teachers() {
+    public function teachers()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $grade = $this->getGrade();
             $search_firstname = $this->getSearch();
-            $group_name =$this->getGroupNameSearch();
+            $group_name = $this->getGroupNameSearch();
             $output['grade'] = $grade;
             if ($grade) {
                 $output['teacher_list'] = $this->Susermodel->getOngoingTeachersGroups($grade, $search_firstname, $group_name);
-            $this->load->view('suser/teacher_list', $output);
+                $this->load->view('suser/teacher_list', $output);
             }
         } else {
             $this->load->view('welcome_message');
         }
     }
 
-    public function parents() {
+    public function parents()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $grade = $this->getGrade();
@@ -52,7 +55,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function children() {
+    public function children()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $grade = $this->getGrade();
@@ -69,7 +73,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function evals($id =-1) {
+    public function evals($id = -1)
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $grade = $this->getGrade();
@@ -87,7 +92,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function comments() {
+    public function comments()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             if (isset($_POST['deleted'])) {
@@ -109,7 +115,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function progress_reports() {
+    public function progress_reports()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $group_name = $this->getGroupNameSearch();
@@ -128,7 +135,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function add_teacher() {
+    public function add_teacher()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $email = $this->getEmail();
@@ -138,9 +146,9 @@ class Suser extends CI_Controller
             $this->form_validation->set_rules('reg_password', 'Password', 'trim|required|min_length[7]');
             $this->form_validation->set_rules('reg_passconf', 'Password Confirmation', 'trim|required|matches[reg_password]');
             if (isset($email) && $this->form_validation->run() === TRUE) {
-            $exists = $this->Susermodel->checkEmail($email);
-            // If posted email address is not present in members view/table:
-                if(!isset($exists[0]->email)) {
+                $exists = $this->Susermodel->checkEmail($email);
+                // If posted email address is not present in members view/table:
+                if (!isset($exists[0]->email)) {
                     $config = array(
                         'upload_path' => "assets/uploads/images/teachers/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
@@ -161,39 +169,47 @@ class Suser extends CI_Controller
 
                     $schoolgroup_id = (int)$this->input->post('schoolgroup_id');
                     $date_of_birth = $this->input->post('date_of_birth');
-                    $this->Susermodel->add_teacher($firstname, $lastname, $picture_path, $reg_email,$date_of_birth ,$schoolgroup_id,$password, $reg_salt);
+                    $this->Susermodel->add_teacher($firstname, $lastname, $picture_path, $reg_email, $date_of_birth, $schoolgroup_id, $password, $reg_salt);
 
-                    if($this->upload->do_upload($picture_path))
-                    {
+                    if ($this->upload->do_upload($picture_path)) {
                         $output['upload_data'] = $this->upload->data();
                         $this->load->view('suser/success', $output);
                     }
                     $this->load->view('suser/success', $output);
 
                 }
-           }
+            }
             $this->load->view('suser/add_teacher', $output);
         } else {
             $this->load->view('login');
         }
     }
 
-    public function edit_teacher() {
+    public function edit_teacher()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
 
             $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
+            $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
+
             $selected_teacher_id = $this->getSelectedTeacher();
-
-            if($selected_teacher_id) {
+            if ($selected_teacher_id) {
                 $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
+                $this->session->set_userdata('selected_teacher_id', $selected_teacher_id);
             }
-
-            $this->load->view('suser/edit_teacher', $output);
+            $editData = $this->editBuilder();
+            if ($editData) {
+                $selected_teacher_id = $this->session->userdata('selected_teacher_id');
+                $this->Susermodel->editTeacher($selected_teacher_id, $editData);
+                $this->load->view('suser/success', $output);
+            }
         }
+        $this->load->view('suser/edit_teacher', $output);
     }
 
-    public function add_parent() {
+    public function add_parent()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $email = $this->getEmail();
@@ -205,7 +221,7 @@ class Suser extends CI_Controller
             if (isset($email) && $this->form_validation->run() === TRUE) {
                 $exists = $this->Susermodel->checkEmail($email);
                 // If posted email address is not present in members view/table:
-                if(!isset($exists[0]->email)) {
+                if (!isset($exists[0]->email)) {
                     $config = array(
                         'upload_path' => "assets/uploads/images/teachers/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
@@ -225,10 +241,9 @@ class Suser extends CI_Controller
                     $reg_salt = $reg_password['salt'];
 
                     $child_id = (int)$this->input->post('child_id');
-                    $this->Susermodel->add_parent($firstname, $lastname, $picture_path, $reg_email ,$child_id,$password, $reg_salt);
+                    $this->Susermodel->add_parent($firstname, $lastname, $picture_path, $reg_email, $child_id, $password, $reg_salt);
 
-                    if($this->upload->do_upload($picture_path))
-                    {
+                    if ($this->upload->do_upload($picture_path)) {
                         $output['upload_data'] = $this->upload->data();
                         $this->load->view('suser/success', $output);
                     }
@@ -242,7 +257,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function add_child() {
+    public function add_child()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
 
@@ -254,7 +270,7 @@ class Suser extends CI_Controller
             $this->form_validation->set_rules('reg_group_id', 'Select Class', 'required');
 
             if (isset($output['groups']) && $this->form_validation->run() === TRUE) {
-                if(!isset($exists[0]->email)) {
+                if (!isset($exists[0]->email)) {
                     $config = array(
                         'upload_path' => "assets/uploads/images/teachers/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
@@ -274,8 +290,7 @@ class Suser extends CI_Controller
 
                     $this->Susermodel->add_child($firstname, $lastname, $date_of_birth, $reg_group_id, $picture_path, $reg_grade);
 
-                    if($this->upload->do_upload($picture_path))
-                    {
+                    if ($this->upload->do_upload($picture_path)) {
                         $output['upload_data'] = $this->upload->data();
                         $this->load->view('suser/success', $output);
                     }
@@ -289,7 +304,8 @@ class Suser extends CI_Controller
         }
     }
 
-    public function add_eval() {
+    public function add_eval()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $grade = $this->getGrade();
@@ -301,7 +317,7 @@ class Suser extends CI_Controller
             $teacher_eval = $this->input->post('teacher_eval');
             $teacher_eval_id = (int)$this->input->post('eval_teacher_id');
 
-            if (isset($teacher_eval) && isset($teacher_eval_id) && $this->form_validation->run() === TRUE ) {
+            if (isset($teacher_eval) && isset($teacher_eval_id) && $this->form_validation->run() === TRUE) {
                 $grade = $this->getGrade();
                 $this->Susermodel->add_eval($teacher_eval_id, $teacher_eval, $grade);
 
@@ -312,14 +328,61 @@ class Suser extends CI_Controller
         }
     }
 
-    public function success() {
+    private function editBuilder()
+    {
+        $data = array();
+        $firstname = $this->input->post('firstname');
+        $lastname = $this->input->post('lastname');
+        $picture_path = $this->input->post('picture');
+        $reg_email = $this->input->post('reg_email');
+        $reg_grade = $this->input->post('edit_grade');
+        $reg_deleted = $this->input->post('reg_deleted');
+        $pw = $this->input->post('reg_password');
+        $schoolgroup_id = (int)$this->input->post('schoolgroup_id');
+        $date_of_birth = $this->input->post('date_of_birth');
+
+        if (isset($firstname) && $firstname != "") {
+            $data['firstname'] = $firstname;
+        }
+        if (isset($lastname) && $lastname != "") {
+            $data['lastname'] = $lastname;
+        }
+        if (isset($picture_path) && $picture_path != "") {
+            $data['picture_path'] = $picture_path;
+        }
+        if (isset($reg_email) && $reg_email != "") {
+            $data['email'] = $reg_email;
+        }
+        if (isset($reg_grade) && $reg_grade != "") {
+            $data['grade'] = $reg_grade;
+        }
+        if (isset($reg_deleted) && $reg_deleted != "") {
+            $data['deleted'] = $reg_deleted;
+        }
+        if (isset($pw) && $pw != "") {
+            $reg_password = $this->hashPass($this->input->post('reg_password'));
+            $data['password'] = $reg_password['password'];
+            $data['salt'] = $reg_password['salt'];
+        }
+        if (isset($schoolgroup_id) && $schoolgroup_id != "") {
+            $data['group_id'] = $schoolgroup_id;
+        }
+        if (isset($date_of_birth) && $date_of_birth != "") {
+            $data['dob'] = $date_of_birth;
+        }
+        return $data;
+    }
+
+    public function success()
+    {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $this->load->view('suser/success');
         }
     }
 
-    private function getEmail() {
-        $reg_email = "'" . $this->input->post('reg_email') . "'" ;
+    private function getEmail()
+    {
+        $reg_email = "'" . $this->input->post('reg_email') . "'";
 
         if (isset($reg_email) && $reg_email !== "") {
             $this->session->set_userdata('reg_email', $reg_email);
@@ -330,7 +393,8 @@ class Suser extends CI_Controller
         return $reg_email;
     }
 
-    private function getGrade() {
+    private function getGrade()
+    {
         $grade = $this->input->post('grade_year');
 
         if (isset($grade) && $grade !== "") {
@@ -342,7 +406,8 @@ class Suser extends CI_Controller
         return $grade;
     }
 
-    private function getSelectedTeacher() {
+    private function getSelectedTeacher()
+    {
         $selected_teacher = $this->input->post('edit_teacher_id');
 
         if (isset($selected_teacher)) {
@@ -356,7 +421,8 @@ class Suser extends CI_Controller
         return $selected_teacher;
     }
 
-    private function getQuarter() {
+    private function getQuarter()
+    {
         $quarter = $this->input->post('quarter');
 
         if (isset($quarter) && $quarter !== "") {
@@ -369,31 +435,34 @@ class Suser extends CI_Controller
         }
     }
 
-    private function getSearch() {
+    private function getSearch()
+    {
         $search = $this->input->post('search');
 
         if (isset($search) && (!is_numeric($search)) && $search !== "") {
             $this->session->set_userdata('search', $_POST['search']);
-            $search = "\"" . $this->session->userdata('search'). "\"";
+            $search = "\"" . $this->session->userdata('search') . "\"";
             return $search;
         } else {
             return $search = 0;
         }
     }
 
-    private function getGroupNameSearch() {
+    private function getGroupNameSearch()
+    {
         $search = $this->input->post('group_name_search');
 
         if (isset($search) && (!is_numeric($search)) && $search !== "") {
             $this->session->set_userdata('group_name_search', $_POST['group_name_search']);
-            $search = "\"" . $this->session->userdata('group_name_search'). "\"";
+            $search = "\"" . $this->session->userdata('group_name_search') . "\"";
             return $search;
         } else {
             return $search = 0;
         }
     }
 
-    private function hashPass($password) {
+    private function hashPass($password)
+    {
         try {
             $salt = random_int(100, 999);
             $password = hash('sha512', $password . $salt);

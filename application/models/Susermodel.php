@@ -255,7 +255,7 @@ class Susermodel extends CI_Model
         $result = array();
 
         if ($query->num_rows() > 0) {
-            $result = $query->result();
+            $result = $query->result_array();
             return $result;
         }
         return array();
@@ -300,6 +300,11 @@ class Susermodel extends CI_Model
             return $result;
         }
         return array();
+    }
+
+    public function editTeacher($selected_teacher_id, array $editData) {
+        $this->db->where('id', $selected_teacher_id);
+        $this->db->update('teacher', $editData);
     }
 
 }
