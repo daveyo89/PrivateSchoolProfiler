@@ -196,37 +196,7 @@ class Suser extends CI_Controller
         }
     }
 
-    /*public function edit_teacher()
-    {
-        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
-            $output = array();
-
-            $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
-            $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
-
-            $chosen = $this->getChosenMember();
-            $output['chosen'] =  $chosen;
-
-            if ($this->session->userdata('selected_member') == "teacher") {
-            $selected_teacher_id = $this->getSelectedTeacher();
-            if ($selected_teacher_id) {
-                $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
-                $this->session->set_userdata('selected_teacher_id', $selected_teacher_id);
-            }
-            $editData = $this->editBuilder();
-            if ($editData) {
-                $selected_teacher_id = $this->session->userdata('selected_teacher_id');
-                $this->Susermodel->editTeacher($selected_teacher_id, $editData);
-                $this->load->view('suser/success', $output);
-            }
-                $this->load->view('suser/edit_teacher', $output);
-
-            }
-            $this->load->view('suser/edit_teacher', $output);
-
-        }
-    }
-*/
+    // TODO To show FLP (upload not clear)
     public function add_parent()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
