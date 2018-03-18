@@ -196,7 +196,7 @@ class Suser extends CI_Controller
         }
     }
 
-    public function edit_teacher()
+    /*public function edit_teacher()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
@@ -206,7 +206,6 @@ class Suser extends CI_Controller
 
             $chosen = $this->getChosenMember();
             $output['chosen'] =  $chosen;
-            var_dump($this->session->userdata('selected_member'));
 
             if ($this->session->userdata('selected_member') == "teacher") {
             $selected_teacher_id = $this->getSelectedTeacher();
@@ -227,7 +226,7 @@ class Suser extends CI_Controller
 
         }
     }
-
+*/
     public function add_parent()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
@@ -281,42 +280,85 @@ class Suser extends CI_Controller
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
-
-            $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
-            $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
-
-            $chosen = $this->getChosenMember();
-            $output['chosen'] =  $chosen;
+            $output['chosen'] =  $this->getChosenMember();
 
             switch ($this->session->userdata('selected_member')){
                 case "teacher":
-                   $this->edit_teacher_function($output);
+                    $this->edit_teacher_function($output);
                     break;
                 case "parent":
+                    $this->edit_parent_function($output);
                     break;
                 case "child":
+                    $this->edit_child_function($output);
+                    $this->session->unset_userdata('selected_member');
                     break;
+                default:
+                    $this->load->view('suser/edit_member');
             }
-            var_dump($this->session->userdata('selected_member'));
-
-            $this->load->view('suser/edit_teacher', $output);
-
         }
     }
 
     public function edit_teacher_function(array $output){
+        $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
+        $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
+
         $selected_teacher_id = $this->getSelectedTeacher();
         if ($selected_teacher_id) {
             $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
             $this->session->set_userdata('selected_teacher_id', $selected_teacher_id);
         }
+
+
         $editData = $this->editBuilder();
         if ($editData) {
             $selected_teacher_id = $this->session->userdata('selected_teacher_id');
-            $this->Susermodel->editTeacher($selected_teacher_id, $editData);
+
+            $this->Susermodel->editMember($this->getTableName(),$selected_teacher_id, $editData);
             $this->load->view('suser/success', $output);
         }
-        $this->load->view('suser/edit_teacher', $output);
+        $this->load->view('suser/edit_member', $output);
+    }
+
+    public function edit_parent_function(array $output){
+        $output['parent_info'] = $this->Susermodel->getEveryParent();
+
+        $selected_parent_id = $this->getSelectedParent();
+        if ($selected_parent_id) {
+            $output['selected_parent'] = $this->Susermodel->getParentById($selected_parent_id);
+            $this->session->set_userdata('selected_parent_id', $selected_parent_id);
+        }
+
+        $editData = $this->editBuilder();
+        if ($editData) {
+            $selected_parent_id = $this->session->userdata('selected_parent_id');
+            $this->Susermodel->editMember($this->getTableName(),$selected_parent_id, $editData);
+            $this->load->view('suser/success', $output);
+        }
+        $this->load->view('suser/edit_member', $output);
+    }
+
+    public function edit_child_function(array $output){
+        $output['child_info'] = $this->Susermodel->getEveryParent();
+
+        $selected_child_id = $this->getSelectedParent();
+        if ($selected_child_id) {
+            $output['selected_child'] = $this->Susermodel->getParentById($selected_child_id);
+            $this->session->set_userdata('selected_child_id', $selected_child_id);
+        }
+
+        $editData = $this->editBuilder();
+        if ($editData) {
+            $selected_child_id = $this->session->userdata('selected_child_id');
+            $this->Susermodel->editMember($this->getTableName(), $selected_child_id, $editData);
+            $this->load->view('suser/success', $output);
+        }
+        $this->load->view('suser/edit_member', $output);
+    }
+
+    private function getTableName() {
+        $table_name = ($this->session->userdata('selected_member'));
+        return $table_name;
     }
 
     public function add_child()
@@ -486,6 +528,21 @@ class Suser extends CI_Controller
         return $selected_teacher;
     }
 
+    private function getSelectedParent()
+    {
+        $selected_parent = $this->input->post('edit_parent_id');
+
+        if (isset($selected_parent)) {
+            $this->session->set_userdata('selected_parent', $selected_parent);
+            $selected_parent = $this->session->userdata('selected_parent');
+        } elseif ($selected_parent == "") {
+            $this->session->unset_userdata('edit_parent_id');
+        } else {
+            $selected_parent = $this->session->userdata('selected_parent');
+        }
+        return $selected_parent;
+    }
+
     private function getQuarter()
     {
         $quarter = $this->input->post('quarter');
@@ -540,8 +597,7 @@ class Suser extends CI_Controller
         );
     }
 
-    private function getCurrentUserData()
-    {
+    private function getCurrentUserData(){
         if ($this->session->userdata('email') !== null && array_search($this->session->userdata('role'), array('teacher', 'suser', 'parent'))) {
             $userData = array();
             $userData = [

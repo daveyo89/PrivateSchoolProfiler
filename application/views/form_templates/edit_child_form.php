@@ -1,22 +1,22 @@
 <!--<form action="" method="post"> -->
+
 <?php echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
-        <p class="login-box-msg">Register a new parent</p>
 
         <?php echo validation_errors(); ?>
-        <?php echo form_open_multipart('add_parent/do_upload');?>
-        <form role="form" name="register_parent_form" action="<?php echo 'suser/add_parent'?>" method="post">
+        <?php echo form_open_multipart('edit_child/do_upload');?>
+        <form role="form" name="edit_selected_form" id="regForm" action="<?php echo 'suser/edit_child'?>" method="post">
             <div class="form-group has-feedback">
-                <input name="firstname" type="text" class="form-control" placeholder="First Name">
+                <input name="firstname" type="text" class="form-control" placeholder="<?php echo $selected_child[0]['firstname']?>">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input name="lastname" type="text" class="form-control" placeholder="Last Name">
+                <input name="lastname" type="text" class="form-control" placeholder="<?php echo $selected_child[0]['lastname']?>">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input name="reg_email" type="email" class="form-control" placeholder="Email">
+                <input name="reg_email" type="email" class="form-control" placeholder="<?php echo $selected_child[0]['email']?>">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -28,23 +28,22 @@
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input name="date_of_birth" type="date" class="form-control" placeholder="Date Of Birth">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <label>(1) Inactive  |  (2)Active</label>
+                <input name="reg_deleted" type="number" class="form-control" placeholder="<?php echo $selected_child[0]['deleted']?>">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
+
             <div class="form-group has-feedback">
-                <input name="picture" type="file" class="form-control" placeholder="Image">
+                <label class="label-default"> Current Profile Picture
+                    <a><img class="profile-user-img" src="<?php echo base_url() . "assets/uploads/images/parents/" . $selected_child[0]['picture_path']?>"></a>
+                </label>
+                <input name="picture" type="file" class="form-control" placeholder="<?php echo $selected_child[0]['picture_path']?>">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
 
             <div class="form-group">
-                <select class="select2-container" name="child_id">
-                <?php
-                foreach ($children as $child) {
-                    ?>
-                    <option name="child_id" value="<?php echo $child->id?>"> <?php echo ucfirst($child->firstname . " " . $child->lastname)?></option><br>
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                <?php } ?>
-                </select>
+                <label class="col-form-label-sm"> Child's name: <?php echo $selected_child[0]['cfn'] . $selected_child[0]['cfl']?></label>
+                <br>
             </div>
 
             <div class="row">
@@ -53,9 +52,10 @@
                     </div>
                 </div>
                 <div class="col-xs-4">
-                    <button name="send" type="submit" value="Submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    <button name="send" type="submit" value="Submit" class="btn btn-primary btn-block btn-flat">Accept</button>
                 </div>
             </div>
+
         </form>
     </div>
     <!-- /.form-box -->

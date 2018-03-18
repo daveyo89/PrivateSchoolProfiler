@@ -261,6 +261,24 @@ class Susermodel extends CI_Model
         return array();
     }
 
+    public function getParentById($parent_id) {
+        $sql = "SELECT pa.id pid, pa.firstname, pa.lastname, email, password, salt, crd, pa.picture_path,
+                       deleted, 
+                       ch.id cid, ch.firstname cfn, ch.lastname cfl,dob,crd_ch, ch.picture_path chpp, ch.grade chgrade
+                       FROM parent pa
+                       LEFT JOIN child ch 
+                       ON(child_id = ch.id)
+                       WHERE pa.id =". $parent_id .";";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            return $result;
+        }
+        return array();
+    }
+
     public function getEveryTeacher() {
         $sql = "SELECT tc.id tid, firstname, lastname, email, password, salt, crd, dob, picture_path, group_id,
                        deleted, tc.grade, sg.id sgid, group_name, group_picture, sg.grade ggrd 
@@ -318,9 +336,10 @@ class Susermodel extends CI_Model
         return array();
     }
 
-    public function editTeacher($selected_teacher_id, array $editData) {
+    public function editMember($table_name, $selected_teacher_id, array $editData) {
         $this->db->where('id', $selected_teacher_id);
-        $this->db->update('teacher', $editData);
+        $this->db->update($table_name, $editData);
     }
+
 
 }

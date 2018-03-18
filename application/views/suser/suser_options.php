@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                        href="<?php echo current_url() . "/add_teacher" . "/" . $grade ?>">Add Teacher</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bg-light-blue"
-                       href="<?php echo current_url() . "/edit_teacher" . "/" . $grade ?>">Edit Teacher</a>
+                       href="<?php echo current_url() . "/edit_member" . "/" . $grade ?>">Edit Teacher</a>
                 </div>
             </div>
             <div class="dropdown">

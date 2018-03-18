@@ -24,18 +24,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <?php
 
-                if (!isset($chosen)) {
+                if (!isset($chosen) || $chosen == "") {
                     $this->load->view('form_templates/select_chosen');
                 }
-                if ($chosen == "teacher") {
+                if (isset($chosen) && $chosen == "teacher") {
                     $this->load->view('form_templates/select_teacher');
                 }
                 if (isset($selected_teacher)) {
                     $this->load->view('form_templates/edit_teacher_form');
                 }
-
+                if (isset($chosen) && $chosen == "parent") {
+                    $this->load->view('form_templates/select_parent');
+                }
                 if (isset($selected_parent)) {
                     $this->load->view('form_templates/edit_parent_form');
+                }
+                if (isset($chosen) && $chosen == "child") {
+                    $this->load->view('form_templates/select_child');
+                }
+                if (isset($selected_child)){
+                    $this->load->view('form_templates/edit_child_form');
                 }
                 ?>
 
