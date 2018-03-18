@@ -8,18 +8,18 @@
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
+
         <img src="<?php echo base_url()?>assets/uploads/website/logo.jpg" class="logo" style="width: auto">
 
         <li class="dropdown user user-menu right-side">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="<?php if(isset($picture))print($picture); ?>" class="user-image" alt="User Image">
+                <img src="<?php if($this->session->userdata('picture_path') != null) echo base_url() . "assets/uploads/images/".$this->session->userdata('role')."s/". $this->session->userdata('picture_path'); ?>" class="profile-user-img" alt="User Image">
                 <span class="hidden-xs"><?php if(isset($fullname))print($fullname); ?></span>
             </a>
             <ul class="dropdown-menu">
                 <!-- User image -->
-                <li class="user-footer">
-
-                    <div class="pull-left">
+                <li class="dropdown-toggle" style="text-align: center;">
+                    <div class="btn">
                         <a href="<?php print(base_url('index.php/logout')); ?>" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                 </li>

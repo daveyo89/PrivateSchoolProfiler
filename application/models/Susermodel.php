@@ -277,6 +277,22 @@ class Susermodel extends CI_Model
         return array();
     }
 
+    public function getEveryParent() {
+        $sql = "SELECT p.id pid, p.firstname pfname, p.lastname plname, email, password, salt, crd,deleted, p.picture_path, child_id,
+                       ch.id cid, ch.firstname, ch.lastname, ch.picture_path cpp, ch.grade
+                       FROM parent p
+                       LEFT JOIN child ch 
+                       ON(child_id = ch.id);";
+        $query = $this->db->query($sql);
+        $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
+
     public function checkEmail($email) {
         $sql = "SELECT email FROM members where email = ". $email ." ";
         $query = $this->db->query($sql);

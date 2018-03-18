@@ -6,6 +6,7 @@
             <h1 class="bg-light-blue left-side">Edit teacher:</h1>
 
             <div class="form-group">
+                <label class="col-form-label-sm"> Please select a teacher:   </label><br>
                 <select class="select2-container" name="edit_teacher_id">
                     <option name="edit_teacher_id" value=""></option><br>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

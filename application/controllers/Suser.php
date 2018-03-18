@@ -13,12 +13,17 @@ class Suser extends CI_Controller
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $output['grade'] = $this->getGrade();
+            $output['user_data'] = $this->getCurrentUserData();
             $this->load->view('suser/suser_options', $output);
         } else {
+
             $this->load->view('welcome_message');
         }
     }
 
+    /**
+     * Selection functions
+     */
     public function teachers()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
@@ -135,6 +140,9 @@ class Suser extends CI_Controller
         }
     }
 
+    /**
+     * Add, Edit functions
+     */
     public function add_teacher()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
@@ -257,6 +265,30 @@ class Suser extends CI_Controller
         }
     }
 
+    public function edit_parent()
+    {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+            $output = array();
+
+            $output['parent_info'] = $this->Susermodel->getEveryParent();
+            $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
+
+            $selected_teacher_id = $this->getSelectedTeacher();
+            if ($selected_teacher_id) {
+                $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
+                $this->session->set_userdata('selected_teacher_id', $selected_teacher_id);
+            }
+            $editData = $this->editBuilder();
+            if ($editData) {
+                $selected_teacher_id = $this->session->userdata('selected_teacher_id');
+                $this->Susermodel->editTeacher($selected_teacher_id, $editData);
+                $this->load->view('suser/success', $output);
+            }
+        }
+        $this->load->view('suser/edit_teacher', $output);
+    }
+
+
     public function add_child()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
@@ -328,6 +360,9 @@ class Suser extends CI_Controller
         }
     }
 
+    /**
+     * Helper functions
+     */
     private function editBuilder()
     {
         $data = array();
@@ -475,4 +510,17 @@ class Suser extends CI_Controller
         );
     }
 
+    private function getCurrentUserData(){
+        if ($this->session->userdata('email') !== null && array_search($this->session->userdata('role'), array('teacher', 'suser', 'parent'))) {
+            $userData = array();
+            $userData = [
+                'fullname' => $this->session->userdata('fullname'),
+                'email' => $this->session->userdata('email'),
+                'role' => $this->session->userdata('role'),
+                'picture_path' => $this->session->userdata('picture_path'),
+            ];
+            return $userData;
+        }
+        return array();
+    }
 }

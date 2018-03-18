@@ -11,13 +11,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="wrapper">
     <?php $this->load->view('templates/header'); ?>
     <?php $this->load->view('templates/userpanel'); ?>
-    <?php $this->load->view('templates/menu'); ?>
+    <?php $this->load->view('templates/menu');  ?>
     </section>
     </aside>
 
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>Welcome to CodeIgniter!</h1>
+            <h1>Welcome to Private School Profiler!</h1>
             <br>
             <h3>Select starting year</h3>
             <?php echo validation_errors(); ?>
