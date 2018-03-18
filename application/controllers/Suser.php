@@ -196,7 +196,7 @@ class Suser extends CI_Controller
         }
     }
 
-    // TODO To show FLP (upload not clear)
+    // TODO To show FLP (upload not clear
     public function add_parent()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
