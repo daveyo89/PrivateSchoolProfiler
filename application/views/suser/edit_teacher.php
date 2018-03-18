@@ -23,9 +23,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a class="btn btn-google" href="<?php echo base_url() . 'suser/teachers/';?>">List</a>
 
                 <?php
-                $this->load->view('form_templates/select_teacher');
+
+                if (!isset($chosen)) {
+                    $this->load->view('form_templates/select_chosen');
+                }
+                if ($chosen == "teacher") {
+                    $this->load->view('form_templates/select_teacher');
+                }
                 if (isset($selected_teacher)) {
                     $this->load->view('form_templates/edit_teacher_form');
+                }
+
+                if (isset($selected_parent)) {
+                    $this->load->view('form_templates/edit_parent_form');
                 }
                 ?>
 

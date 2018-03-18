@@ -14,6 +14,9 @@ class Suser extends CI_Controller
             $output = array();
             $output['grade'] = $this->getGrade();
             $output['user_data'] = $this->getCurrentUserData();
+
+            $this->session->unset_userdata('chosen');
+
             $this->load->view('suser/suser_options', $output);
         } else {
 
@@ -201,6 +204,11 @@ class Suser extends CI_Controller
             $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
             $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
 
+            $chosen = $this->getChosenMember();
+            $output['chosen'] =  $chosen;
+            var_dump($this->session->userdata('selected_member'));
+
+            if ($this->session->userdata('selected_member') == "teacher") {
             $selected_teacher_id = $this->getSelectedTeacher();
             if ($selected_teacher_id) {
                 $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
@@ -212,8 +220,12 @@ class Suser extends CI_Controller
                 $this->Susermodel->editTeacher($selected_teacher_id, $editData);
                 $this->load->view('suser/success', $output);
             }
+                $this->load->view('suser/edit_teacher', $output);
+
+            }
+            $this->load->view('suser/edit_teacher', $output);
+
         }
-        $this->load->view('suser/edit_teacher', $output);
     }
 
     public function add_parent()
@@ -265,29 +277,47 @@ class Suser extends CI_Controller
         }
     }
 
-    public function edit_parent()
+    public function edit_member()
     {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
 
-            $output['parent_info'] = $this->Susermodel->getEveryParent();
+            $output['teacher_info'] = $this->Susermodel->getEveryTeacher();
             $output['groups'] = $this->Susermodel->getEveryGroup($this->getGrade());
 
-            $selected_teacher_id = $this->getSelectedTeacher();
-            if ($selected_teacher_id) {
-                $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
-                $this->session->set_userdata('selected_teacher_id', $selected_teacher_id);
+            $chosen = $this->getChosenMember();
+            $output['chosen'] =  $chosen;
+
+            switch ($this->session->userdata('selected_member')){
+                case "teacher":
+                   $this->edit_teacher_function($output);
+                    break;
+                case "parent":
+                    break;
+                case "child":
+                    break;
             }
-            $editData = $this->editBuilder();
-            if ($editData) {
-                $selected_teacher_id = $this->session->userdata('selected_teacher_id');
-                $this->Susermodel->editTeacher($selected_teacher_id, $editData);
-                $this->load->view('suser/success', $output);
-            }
+            var_dump($this->session->userdata('selected_member'));
+
+            $this->load->view('suser/edit_teacher', $output);
+
+        }
+    }
+
+    public function edit_teacher_function(array $output){
+        $selected_teacher_id = $this->getSelectedTeacher();
+        if ($selected_teacher_id) {
+            $output['selected_teacher'] = $this->Susermodel->getTeacherById($selected_teacher_id);
+            $this->session->set_userdata('selected_teacher_id', $selected_teacher_id);
+        }
+        $editData = $this->editBuilder();
+        if ($editData) {
+            $selected_teacher_id = $this->session->userdata('selected_teacher_id');
+            $this->Susermodel->editTeacher($selected_teacher_id, $editData);
+            $this->load->view('suser/success', $output);
         }
         $this->load->view('suser/edit_teacher', $output);
     }
-
 
     public function add_child()
     {
@@ -510,7 +540,8 @@ class Suser extends CI_Controller
         );
     }
 
-    private function getCurrentUserData(){
+    private function getCurrentUserData()
+    {
         if ($this->session->userdata('email') !== null && array_search($this->session->userdata('role'), array('teacher', 'suser', 'parent'))) {
             $userData = array();
             $userData = [
@@ -523,4 +554,20 @@ class Suser extends CI_Controller
         }
         return array();
     }
+
+    private function getChosenMember()
+    {
+        $chosen = $this->input->post('chosen');
+
+        if (isset($chosen)) {
+            $this->session->set_userdata('selected_member', $chosen);
+            $chosen = $this->session->userdata('selected_member');
+        } elseif ($chosen == "") {
+            $this->session->unset_userdata('chosen');
+        } else {
+            $chosen = $this->session->userdata('selected_member');
+        }
+        return $chosen;
+    }
+
 }

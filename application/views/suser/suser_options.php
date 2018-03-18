@@ -53,6 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bg-purple"
                        href="<?php echo current_url() . "/add_parent" . "/" . $grade ?>">Add Parent</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-purple-gradient"
+                       href="<?php echo current_url() . "/edit_member" . "/" . $grade;  ?>">Edit Parent</a>
                 </div>
             </div>
 
@@ -65,6 +68,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bg-olive" href="<?php echo current_url() . "/add_child" . "/" . $grade ?>">Add
                         Child</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-olive-active"
+                       href="<?php echo current_url() . "/edit_member" . "/" . $grade; ?>">Edit Child</a>
                 </div>
             </div>
 
@@ -75,7 +81,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </section>
     </div>
 </div>
-
 <?php $this->load->view('templates/footer'); ?>
 
 </body>
