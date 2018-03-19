@@ -28,11 +28,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>Parent Name</th>
                         <th>Email</th>
                         <th>Parent Picture</th>
-                        <th>Child Name</th>
-                        <th>Date of Birth</th>
-                        <th>Child Picture</th>
-                        <th>Class Name</th>
-                        <th>Class Picture</th>
+                        <th>Children Names</th>
+                        <th>Children Classes</th>
                     </tr>
                     <?php foreach ($parent_list as $item) {
                         if (!isset($item->papp)){$item->papp = "crop.jpg";}
@@ -43,11 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $item->paf . " " . $item->pal;?></td>
                             <td><?php echo $item->email;?></td>
                             <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/parents/" . $item->papp;?>"></td>
-                            <td><?php echo $item->chf . " " . $item->chl;?></td>
-                            <td><?php echo $item->dob;?></td>
-                            <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/children/" . $item->chpp;?>"></td>
-                            <td><?php echo $item->sgname;?></td>
-                            <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/groups/" . $item->sgpp;?>"></td>
+                            <td><?php echo $item->pchild;?></td>
+                            <td><?php echo $item->gcsgn;?></td>
                         </tr>
                     <?php } ?>
 

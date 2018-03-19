@@ -31,19 +31,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>Current Grade</th>
                         <th>Class Name</th>
                         <th>Class Picture</th>
+                        <th>Parent Name</th>
+                        <th>Parent Picture</th>
                     </tr>
                     <?php foreach ($child_list as $item) {
-                        if (!isset($item->picture_path)){$item->picture_path = "crop.jpg";}
-                        if (!isset($item->picture_path)){$item->picture_path = "crop.jpg";}
+                        if (!isset($item->cpp)){$item->cpp = "crop.jpg";}
+                        if (!isset($item->ppp)){$item->ppp = "crop.jpg";}
                         if (!isset($item->group_picture)){$item->group_picture = "nophoto.png";}
                         ?>
                         <tr class="table-secondary">
-                            <td><?php echo $item->firstname . " " . $item->lastname;?></td>
-                            <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/children/" . $item->picture_path;?>"></td>
+                            <td><?php echo $item->cfname . " " . $item->clname;?></td>
+                            <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/children/" . $item->cpp;?>"></td>
                             <td><?php echo $item->dob;?></td>
                             <td><?php echo $item->grade;?></td>
                             <td><?php echo $item->group_name;?></td>
                             <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/groups/" . $item->group_picture;?>"></td>
+                            <td><?php echo $item->pfname . " " . $item->plname;?></td>
+                            <td><img class="profile-user-img" src="<?php echo "/assets/uploads/images/parents/" . $item->ppp;?>"></td>
+
                         </tr>
                     <?php } ?>
 

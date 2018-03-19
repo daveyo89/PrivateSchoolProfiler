@@ -15,7 +15,7 @@ class Suser extends CI_Controller
             $output['grade'] = $this->getGrade();
             $output['user_data'] = $this->getCurrentUserData();
 
-            $this->session->unset_userdata('chosen');
+           // $this->session->unset_userdata('chosen');
 
             $this->load->view('suser/suser_options', $output);
         } else {
@@ -229,8 +229,7 @@ class Suser extends CI_Controller
                     $password = $reg_password['password'];
                     $reg_salt = $reg_password['salt'];
 
-                    $child_id = (int)$this->input->post('child_id');
-                    $this->Susermodel->add_parent($firstname, $lastname, $picture_path, $reg_email, $child_id, $password, $reg_salt);
+                    $this->Susermodel->add_parent($firstname, $lastname, $picture_path, $reg_email, $password, $reg_salt);
 
                     if ($this->upload->do_upload($picture_path)) {
                         $output['upload_data'] = $this->upload->data();
@@ -261,7 +260,7 @@ class Suser extends CI_Controller
                     break;
                 case "child":
                     $this->edit_child_function($output);
-                    $this->session->unset_userdata('selected_member');
+                    var_dump($output);
                     break;
                 default:
                     $this->load->view('suser/edit_member');
@@ -309,11 +308,12 @@ class Suser extends CI_Controller
     }
 
     public function edit_child_function(array $output){
-        $output['child_info'] = $this->Susermodel->getEveryParent();
+        $output['child_info'] = $this->Susermodel->getEveryChild();
 
-        $selected_child_id = $this->getSelectedParent();
+        $selected_child_id = $this->getSelectedChild();
         if ($selected_child_id) {
-            $output['selected_child'] = $this->Susermodel->getParentById($selected_child_id);
+
+            $output['selected_child'] = $this->Susermodel->getChildById($selected_child_id);
             $this->session->set_userdata('selected_child_id', $selected_child_id);
         }
 
@@ -483,6 +483,20 @@ class Suser extends CI_Controller
         return $grade;
     }
 
+    private function getSelectedChild()
+    {
+        $selected_child = $this->input->post('edit_child_id');
+        if (isset($selected_child)) {
+            $this->session->set_userdata('selected_child', $selected_child);
+            $selected_child = $this->session->userdata('selected_child');
+        } elseif ($selected_child == "") {
+            $this->session->unset_userdata('edit_child_id');
+        } else {
+            $selected_child = $this->session->userdata('selected_child');
+        }
+        return $selected_child;
+    }
+
     private function getSelectedTeacher()
     {
         $selected_teacher = $this->input->post('edit_teacher_id');
@@ -497,6 +511,7 @@ class Suser extends CI_Controller
         }
         return $selected_teacher;
     }
+
 
     private function getSelectedParent()
     {

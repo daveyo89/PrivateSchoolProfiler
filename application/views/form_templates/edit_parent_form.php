@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-form-label-sm"> Child's name: <?php echo $selected_parent[0]['cfn'] . $selected_parent[0]['cfl']?></label>
+                <label class="col-form-label-sm"> Known for child: <?php echo $selected_parent[0]['cfn'] . " " . $selected_parent[0]['cfl']?></label>
                 <br>
             </div>
 
