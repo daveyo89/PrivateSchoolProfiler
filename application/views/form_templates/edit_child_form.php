@@ -3,10 +3,7 @@
 <?php echo form_open(current_url()); ?>
 <div class="register-box-body" xmlns="http://www.w3.org/1999/html">
     <div class="register-box-body">
-
-        <?php echo validation_errors();
-        var_dump($selected_child);
-        ?>
+        <?php echo validation_errors(); ?>
         <?php echo form_open_multipart('edit_child/do_upload');?>
         <form role="form" name="edit_selected_form" id="regForm" action="<?php echo 'suser/edit_child'?>" method="post">
             <div class="form-group has-feedback">

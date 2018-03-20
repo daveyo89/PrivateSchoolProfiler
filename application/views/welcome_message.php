@@ -19,12 +19,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <section class="content-header">
             <h1>Welcome to Private School Profiler!</h1>
             <br>
-            <h3>Select starting year</h3>
             <?php echo validation_errors(); ?>
-            <!--<form action="" method="post"> -->
             <?php echo form_open('Suser'); ?>
             <div class="form-group has-feedback">
-                <input type="number" name="grade_year" class="ion-information-circled" placeholder="2017">
+                <label class="label-default"> Select starting year
+                    <input type="text" name="grade_year" class="ion-information-circled"
+                           value="<?php if (isset($def_year)) echo $def_year;?>" placeholder="<?php if (isset($def_year)) echo $def_year;?>">
+                </label>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="col-xs-4">

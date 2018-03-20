@@ -262,8 +262,8 @@ class Susermodel extends CI_Model
     }
 
     public function getParentById($parent_id) {
-        $sql = "SELECT pa.id pid, pa.firstname, pa.lastname, email, password, salt, crd, pa.picture_path, deleted, 
-                       ch.id cid, ch.firstname cfn, ch.lastname cfl,dob,crd_ch, ch.picture_path chpp, ch.grade chgrade
+        $sql = "SELECT pa.id pid, pa.firstname, pa.lastname, email, password, salt, crd, pa.picture_path, pa.deleted, 
+                       ch.id cid, ch.firstname cfn, ch.lastname cfl,dob,crd_ch, ch.picture_path chpp, ch.grade chgrade, ch.deleted ch_deleted
                        FROM parent pa
                        LEFT JOIN child ch 
                        ON(parent_id = pa.id)

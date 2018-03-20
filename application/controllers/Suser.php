@@ -8,19 +8,26 @@ class Suser extends CI_Controller
         $this->load->model(array('Susermodel'));
     }
 
-    public function index()
-    {
+    public function index() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $output['grade'] = $this->getGrade();
-            $output['user_data'] = $this->getCurrentUserData();
-
-           // $this->session->unset_userdata('chosen');
-
+            $output['def_year'] = $this->getDefaultYear();
+            if ($output['grade']) {
             $this->load->view('suser/suser_options', $output);
-        } else {
-
+            } else {
+                $this->load->view('welcome_message', $output);
+            }
+        }
+        elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'teacher'){
+            //TODO
             $this->load->view('welcome_message');
+        }
+        elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'parent') {
+            //TODO
+            $this->load->view('welcome_message');
+        } else {
+            $this->load->view('login');
         }
     }
 
@@ -260,7 +267,6 @@ class Suser extends CI_Controller
                     break;
                 case "child":
                     $this->edit_child_function($output);
-                    var_dump($output);
                     break;
                 default:
                     $this->load->view('suser/edit_member');
@@ -512,7 +518,6 @@ class Suser extends CI_Controller
         return $selected_teacher;
     }
 
-
     private function getSelectedParent()
     {
         $selected_parent = $this->input->post('edit_parent_id');
@@ -582,20 +587,6 @@ class Suser extends CI_Controller
         );
     }
 
-    private function getCurrentUserData(){
-        if ($this->session->userdata('email') !== null && array_search($this->session->userdata('role'), array('teacher', 'suser', 'parent'))) {
-            $userData = array();
-            $userData = [
-                'fullname' => $this->session->userdata('fullname'),
-                'email' => $this->session->userdata('email'),
-                'role' => $this->session->userdata('role'),
-                'picture_path' => $this->session->userdata('picture_path'),
-            ];
-            return $userData;
-        }
-        return array();
-    }
-
     private function getChosenMember()
     {
         $chosen = $this->input->post('chosen');
@@ -609,6 +600,12 @@ class Suser extends CI_Controller
             $chosen = $this->session->userdata('selected_member');
         }
         return $chosen;
+    }
+
+    public function getDefaultYear() {
+        $date = explode('-', date('Y-m',time()));
+        $def_year = ((int)$date[1] < 9 ? $date[0]-1 : $date[0]);
+        return $def_year;
     }
 
 }

@@ -77,6 +77,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="full-width" style="text-align: center">
                 <a class="btn btn-danger" href="<?php echo base_url() ?>">Back</a>
             </div>
+            <?php echo form_open('Suser'); ?>
+            <label class="label-default"> Select starting year
+                <input type="text" name="grade_year" class="ion-information-circled"
+                       value="<?php echo $def_year;?>" placeholder="">
+                <button type="submit" class="btn btn-primary btn-flat">Continue</button>
+            </label>
+            </form>
 
         </section>
     </div>
