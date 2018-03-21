@@ -84,6 +84,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <button type="submit" class="btn btn-primary btn-flat">Continue</button>
             </label>
             </form>
+            <label class="label-default bg-transparent">Currently selected year:
+                <h9><?php echo $grade?></h9>
+            </label>
 
         </section>
     </div>

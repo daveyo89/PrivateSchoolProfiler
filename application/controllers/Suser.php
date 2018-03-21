@@ -9,25 +9,27 @@ class Suser extends CI_Controller
     }
 
     public function index() {
-        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
-            $output = array();
-            $output['grade'] = $this->getGrade();
-            $output['def_year'] = $this->getDefaultYear();
-            if ($output['grade']) {
-            $this->load->view('suser/suser_options', $output);
+        if ($this->session->userdata('email') !== null) {
+            if ($this->session->userdata('role') == 'suser') {
+                $output = array();
+                $output['grade'] = $this->getGrade();
+                $output['def_year'] = $this->getDefaultYear();
+                if ($output['grade']) {
+                    $this->load->view('suser/suser_options', $output);
+                } else {
+                    $this->load->view('welcome_message', $output);
+                }
+            } elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'teacher') {
+                //TODO
+                $this->load->view('welcome_message');
+            } elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'parent') {
+                //TODO
+                $this->load->view('welcome_message');
             } else {
-                $this->load->view('welcome_message', $output);
+                $this->load->view('login');
             }
-        }
-        elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'teacher'){
-            //TODO
-            $this->load->view('welcome_message');
-        }
-        elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'parent') {
-            //TODO
-            $this->load->view('welcome_message');
         } else {
-            $this->load->view('login');
+            redirect(base_url('Login'));
         }
     }
 
@@ -271,6 +273,8 @@ class Suser extends CI_Controller
                 default:
                     $this->load->view('suser/edit_member');
             }
+        } else {
+            redirect(base_url('Login'));
         }
     }
 
@@ -456,13 +460,6 @@ class Suser extends CI_Controller
         return $data;
     }
 
-    public function success()
-    {
-        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
-            $this->load->view('suser/success');
-        }
-    }
-
     private function getEmail()
     {
         $reg_email = "'" . $this->input->post('reg_email') . "'";
@@ -602,7 +599,7 @@ class Suser extends CI_Controller
         return $chosen;
     }
 
-    public function getDefaultYear() {
+    private function getDefaultYear() {
         $date = explode('-', date('Y-m',time()));
         $def_year = ((int)$date[1] < 9 ? $date[0]-1 : $date[0]);
         return $def_year;

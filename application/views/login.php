@@ -27,9 +27,9 @@
         <input type="password" name="user_password" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-      <div class="row">
+      <div class="row" style="text-align: center">
         <div class="col-xs-8">
-          <div class="checkbox icheck">
+          <div class="checkbox icheck"  style="white-space: pre-line; margin-left: 10%">
             <label class="custom-checkbox">
               <input type="checkbox"> Remember Me
             </label>

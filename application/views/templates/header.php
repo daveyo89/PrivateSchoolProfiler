@@ -9,11 +9,11 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
 
-        <img src="<?php echo base_url()?>assets/uploads/website/logo.jpg" class="logo" style="width: auto">
+        <img src="<?php echo base_url()?>assets/uploads/website/logo.jpg" class="logo float-left" style="width: auto">
 
-        <li class="dropdown user user-menu right-side">
+        <li class="dropdown user user-menu float-right">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="<?php if($this->session->userdata('picture_path') != null) echo base_url() . "assets/uploads/images/".$this->session->userdata('role')."s/". $this->session->userdata('picture_path'); ?>" class="profile-user-img" alt="User Image">
+                <img  style="width: auto; max-height: 60px" src="<?php if($this->session->userdata('picture_path') != null) echo base_url() . "assets/uploads/images/".$this->session->userdata('role')."s/". $this->session->userdata('picture_path'); ?>" class="profile-user-img" alt="User Image">
                 <span class="hidden-xs"><?php if(isset($fullname))print($fullname); ?></span>
             </a>
             <ul class="dropdown-menu">

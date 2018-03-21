@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <section class="content-header">
             <h1>Welcome to Private School Profiler!</h1>
             <br>
-            <?php echo validation_errors(); ?>
+            <?php echo validation_errors();?>
             <?php echo form_open('Suser'); ?>
             <div class="form-group has-feedback">
                 <label class="label-default"> Select starting year
