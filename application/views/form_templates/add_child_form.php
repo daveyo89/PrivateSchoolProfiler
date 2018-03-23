@@ -1,12 +1,12 @@
 <!--<form action="" method="post"> -->
-<?php echo form_open(current_url()); ?>
+<?php //echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
         <p class="login-box-msg">Register a new child</p>
 
         <?php echo validation_errors(); ?>
-        <?php echo form_open_multipart('add_child/do_upload');?>
-        <form role="form" name="register_parent_form" action="<?php echo 'suser/add_child'?>" method="post">
+
+        <form role="form" name="register_parent_form" action="<?php echo 'suser/add_child'?>" method="post"  enctype="multipart/form-data">
             <div class="form-group has-feedback">
                 <input name="firstname" type="text" class="form-control" placeholder="First Name">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>

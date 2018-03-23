@@ -256,6 +256,7 @@ class Suser extends CI_Controller
 
     public function edit_member()
     {
+
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
             $output = array();
             $output['chosen'] =  $this->getChosenMember();
@@ -356,11 +357,11 @@ class Suser extends CI_Controller
             if (isset($output['groups']) && $this->form_validation->run() === TRUE) {
                 if (!isset($exists[0]->email)) {
                     $config = array(
-                        'upload_path' => "assets/uploads/images/teachers/",
+                        'upload_path' => "assets/uploads/images/children/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
                         'overwrite' => TRUE,
                         'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-                        'max_height' => "768",
+                        'max_height' => "800",
                         'max_width' => "1024"
                     );
                     $this->load->library('upload', $config);
@@ -369,16 +370,17 @@ class Suser extends CI_Controller
                     $lastname = $this->input->post('lastname');
                     $date_of_birth = $this->input->post('date_of_birth');
                     $reg_group_id = $this->input->post('reg_group_id');
-                    $picture_path = $this->input->post('picture');
                     $reg_grade = $this->input->post('reg_grade');
 
-                    $this->Susermodel->add_child($firstname, $lastname, $date_of_birth, $reg_group_id, $picture_path, $reg_grade);
-
-                    if ($this->upload->do_upload($picture_path)) {
+                    if ($this->upload->do_upload('picture')) {
                         $output['upload_data'] = $this->upload->data();
+                        $this->Susermodel->add_child($firstname, $lastname, $date_of_birth, $reg_group_id,  $output['upload_data']["file_name"], $reg_grade);
+                        $this->load->view('suser/success', $output);
+                    }else{
+                        //itt not success view vagy hasonló kell, azza nem sikerült feltölteni uploadot kiszervezni megjavitani a formokat !
                         $this->load->view('suser/success', $output);
                     }
-                    $this->load->view('suser/success', $output);
+
 
                 }
             }

@@ -5,8 +5,8 @@
     <div class="register-box-body">
 
         <?php echo validation_errors(); ?>
-        <?php echo form_open_multipart('edit_teacher/do_upload');?>
-        <form role="form" name="edit_selected_form" id="regForm" action="<?php echo 'suser/edit_teacher'?>" method="post">
+
+        <form role="form" name="edit_selected_form" id="regForm" action="<?php echo 'suser/edit_member'?>"  enctype="multipart/form-data"  method="post">
             <div class="form-group has-feedback">
                 <input name="firstname" type="text" class="form-control" placeholder="<?php echo $selected_teacher[0]['firstname']?>">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
