@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </section>
         <div id="body">
             <h1 class="login-logo" href="">Something went wrong..</h1>
+            <?php var_dump($error); ?>
             <div class="full-width" style="text-align: center">
                 <a class="btn btn-warning" href="<?php echo (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : base_url() . 'suser';?>">Try again</a><br><br>
                 <a class="btn btn-danger" href="<?php echo base_url() . "Suser"?>">Back</a>

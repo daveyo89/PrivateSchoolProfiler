@@ -39,6 +39,18 @@
                 <?php } ?>
                 </select>
             </div>
+            <label>Select Parent
+            <div class="form-group">
+                <select class="select2-container" name="parent_id">
+                    <?php
+                    foreach ($parents as $parent) {
+                        ?>
+                        <option name="parent_id" value="<?php echo $parent->pid?>"> <?php echo ucfirst($parent->pfname . " " . $parent->plname)?></option><br>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <?php } ?>
+                </select>
+            </div>
+            </label>
 
             <div class="row">
                 <div class="col-xs-8">

@@ -74,6 +74,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
 
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Classes
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?php echo current_url() . "/groups/" . $grade ?>">Classes</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-maroon-gradient" href="<?php echo current_url() . "/add_group" . "/" . $grade ?>">Add
+                        Class</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bg-maroon-active"
+                       href="<?php echo current_url() . "/edit_member" . "/" . $grade; ?>">Edit Class</a>
+                </div>
+            </div>
+
             <div class="full-width" style="text-align: center">
                 <a class="btn btn-danger" href="<?php echo base_url() ?>">Back</a>
             </div>

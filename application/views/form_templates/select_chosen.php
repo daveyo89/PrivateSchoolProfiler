@@ -11,6 +11,7 @@
                         <option name="chosen" value="teacher">Teacher</option>
                         <option name="chosen" value="parent">Parent</option>
                         <option name="chosen" value="child">Child</option>
+                        <option name="chosen" value="school_group">Class</option>
                     </select>
                 </label>
             </div>

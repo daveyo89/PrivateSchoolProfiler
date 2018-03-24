@@ -28,7 +28,12 @@
                 <label class="label-default"> Current Profile Picture
                     <a><img class="profile-user-img" src="<?php echo base_url() . "assets/uploads/images/parents/" . $selected_parent[0]['picture_path']?>"></a>
                 </label>
-                <input name="picture" type="file" class="form-control" placeholder="<?php echo $selected_parent[0]['picture_path']?>">
+                <input name="picture" type="file" class="form-control" placeholder="Image">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input name="edit_grade" type="number" class="form-control" placeholder="Starting year">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
 
             <div class="form-group">

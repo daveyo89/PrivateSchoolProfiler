@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <div id="body">
                 <a class="btn btn-danger" href="<?php echo (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : base_url() . 'suser';?>">Back</a>
-                <a class="btn btn-google" href="<?php echo base_url() . 'suser/teachers/';?>">List</a>
+                <a class="btn btn-google" href="<?php echo base_url() . 'suser/';?>">List</a>
 
                 <?php
                 if (!isset($chosen) || $chosen == "") {
@@ -43,6 +43,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
                 if (isset($selected_child)){
                     $this->load->view('form_templates/edit_child_form');
+                }
+                if (isset($chosen) && $chosen == "school_group") {
+                    $this->load->view('form_templates/select_group');
+                }
+                if (isset($selected_group)){
+                    $this->load->view('form_templates/edit_group_form');
                 }
                 ?>
 

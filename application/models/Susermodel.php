@@ -62,14 +62,14 @@ class Susermodel extends CI_Model
     }
 
     public function getOngoingParentsGroups($grade, $search_firstname, $group_name) {
-        $sql = "SELECT pa.id pid, group_concat(\"  \", concat(ch.firstname,\"  \", ch.lastname)) as pchild,group_concat(\"  \", sg.group_name, \"  \") as gcsgn, pa.firstname paf, pa.lastname pal, pa.email, pa.picture_path papp,
+        $sql = "SELECT pa.id pid, pa.grade, group_concat(\"  \", concat(ch.firstname,\"  \", ch.lastname)) as pchild,group_concat(\"  \", sg.group_name, \"  \") as gcsgn, pa.firstname paf, pa.lastname pal, pa.email, pa.picture_path papp,
                        sg.id sgid, sg.group_name sgname, sg.group_picture sggp, sg.grade
                 FROM privateschoolprofiler.parent pa
                 LEFT JOIN child ch ON(pa.id = ch.parent_id)
                 RIGHT join school_group sg ON(ch.group_id = sg.id)
                 WHERE pa.firstname = ". $search_firstname ."
                 AND sg.group_name = ". $group_name ."
-                AND sg.grade = ". $grade ."
+                AND pa.grade = ". $grade ."
                 GROUP BY pid";
         $query = $this->db->query($sql);
         $result = array();
@@ -192,7 +192,7 @@ class Susermodel extends CI_Model
         }
     }
 
-    public function add_parent($firstname, $lastname, $picture_path, $reg_email, $password, $reg_salt) {
+    public function add_parent($firstname, $lastname, $picture_path, $reg_email, $password, $reg_salt, $reg_grade) {
         if(isset($reg_email) > 0){
             $insertArray = array(
                 'firstname'     =>$firstname,
@@ -201,6 +201,7 @@ class Susermodel extends CI_Model
                 'email'         =>$reg_email,
                 'password'      =>$password,
                 'salt'          =>$reg_salt,
+                'grade'         => $reg_grade,
             );
             $this->db->insert('parent', $insertArray);
         }
@@ -217,6 +218,17 @@ class Susermodel extends CI_Model
                 'grade'          =>$grade,
             );
             $this->db->insert('child', $insertArray);
+        }
+    }
+
+    public function add_group($group_name,  $picture_path, $reg_grade) {
+        if(isset($group_name, $reg_grade)){
+            $insertArray = array(
+                'group_name'     =>$group_name,
+                'group_picture'  =>$picture_path,
+                'grade'          =>$reg_grade
+            );
+            $this->db->insert('school_group', $insertArray);
         }
     }
 
@@ -279,14 +291,28 @@ class Susermodel extends CI_Model
     }
 
     public function getChildById($child_id) {
-        $sql = "SELECT ch.id cid, ch.firstname, ch.lastname, dob, group_id, ch.picture_path, crd_ch, grade, parent_id, ch.deleted,
-		p.firstname pfname, p.lastname plname, p.email, p.deleted pdel, p.picture_path ppp, p.updated
+        $sql = "SELECT ch.id cid, ch.firstname, ch.lastname, dob, group_id, ch.picture_path, crd_ch, ch.grade, parent_id, ch.deleted,
+		p.firstname pfname, p.lastname plname, p.email, p.deleted pdel, p.picture_path ppp, p.updated, p.grade pgrade,
+        sg.id, sg.group_name, sg.group_picture, sg.grade sgrade
                        FROM child ch
                        LEFT JOIN parent p 
                        ON(parent_id = p.id)
+                       LEFT JOIN school_group sg ON(group_id = sg.id)
                        WHERE ch.id = ". $child_id ." ";
         $query = $this->db->query($sql);
         $result = array();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            return $result;
+        }
+        return array();
+    }
+
+    public function getGroupById($group_id) {
+        $sql = "SELECT * FROM school_group
+                       WHERE id = ". $group_id ." ";
+        $query = $this->db->query($sql);
 
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
@@ -312,7 +338,7 @@ class Susermodel extends CI_Model
     }
 
     public function getEveryParent() {
-        $sql = "SELECT p.id pid, p.firstname pfname, p.lastname plname, email, password, salt, crd,deleted, p.picture_path
+        $sql = "SELECT p.id pid, p.firstname pfname, p.lastname plname, email, password, salt, crd,deleted, p.picture_path, p.grade
                        FROM parent p
                        ";
         $query = $this->db->query($sql);
@@ -336,6 +362,17 @@ class Susermodel extends CI_Model
         return array();
     }
 
+    public function getEveryClass() {
+        $sql = "SELECT * FROM school_group";
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        }
+        return array();
+    }
+
     public function checkEmail($email) {
         $sql = "SELECT email FROM members where email = ". $email ." ";
         $query = $this->db->query($sql);
@@ -348,8 +385,8 @@ class Susermodel extends CI_Model
         return array();
     }
 
-    public function editMember($table_name, $selected_teacher_id, array $editData) {
-        $this->db->where('id', $selected_teacher_id);
+    public function editMember($table_name, $selected_id, array $editData) {
+        $this->db->where('id', $selected_id);
         $this->db->update($table_name, $editData);
     }
 

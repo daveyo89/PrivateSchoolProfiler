@@ -4,7 +4,7 @@
         <p class="login-box-msg">Register a new teacher</p>
 
         <?php echo validation_errors(); ?>
-        <form role="form" name="register_teacher_form" action="<?php echo 'suser/add_teacher'?>" method="post" enctype="multipart/form-data" >
+        <form role="form" name="register_teacher_form" action="<?php echo 'suser/add_teacher'?>" method="post" enctype="multipart/form-data">
             <div class="form-group has-feedback">
                 <input name="firstname" type="text" class="form-control" placeholder="First Name">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -35,6 +35,7 @@
             </div>
 
             <div class="form-group">
+                <label> Classes in selected year: <br>
                 <select class="select2-container" name="schoolgroup_id">
                 <?php
                 foreach ($groups as $group) {
@@ -43,6 +44,7 @@
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 <?php } ?>
                 </select>
+                </label>
             </div>
 
             <div class="row">

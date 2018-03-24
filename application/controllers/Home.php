@@ -18,7 +18,7 @@ class Home extends CI_Controller
         } elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') === 'teacher') {
             redirect(base_url('Teacher'));
         } elseif ($this->session->userdata('email') !== null && $this->session->userdata('role') === 'parent') {
-            redirect(base_url('Parent'));
+            redirect(base_url('Parents'));
         } else {
             $this->load->view('login');
         }
