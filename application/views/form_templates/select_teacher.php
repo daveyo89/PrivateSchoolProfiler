@@ -1,20 +1,16 @@
-<?php echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
-        <?php echo form_open_multipart('select_teacher');?>
-        <form role="form" name="edit_form" id="regForm" action="<?php echo 'suser/edit_teacher'?>">
+        <form role="form" name="edit_form" id="regForm" action="<?php echo 'edit_member'?>" method="post">
             <h1 class="bg-light-blue left-side">Edit teacher:</h1>
 
             <div class="form-group">
                 <label class="col-form-label-sm"> Please select a teacher:   </label><br>
                 <select class="select2-container" name="edit_teacher_id">
                     <option name="edit_teacher_id" value=""></option><br>
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     <?php
                     foreach ($teacher_info as $item) {
                     ?>
                     <option name="edit_teacher_id" value="<?php echo $item->tid?>"> <?php echo ucfirst($item->firstname . " " . $item->lastname)?><br>
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </option>
                         <?php } ?>
                 </select>

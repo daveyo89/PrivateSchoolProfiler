@@ -1,5 +1,4 @@
 <!--<form action="" method="post"> -->
-<?php //echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
         <p class="login-box-msg">Register a new child</p>

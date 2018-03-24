@@ -167,7 +167,7 @@ class Suser extends CI_Controller
             $this->form_validation->set_rules('reg_passconf', 'Password Confirmation', 'trim|required|matches[reg_password]');
             if (isset($email) && $this->form_validation->run() === TRUE) {
                 $exists = $this->Susermodel->checkEmail($email);
-                // If posted email address is not present in members view/table:
+                // If posted email address is not present in members view/table:  (ergo = new member)
                 if (!isset($exists[0]->email)) {
                     $config = array(
                         'upload_path' => "assets/uploads/images/teachers/",
@@ -181,7 +181,6 @@ class Suser extends CI_Controller
 
                     $firstname = $this->input->post('firstname'); //Returns radio button (group_id)
                     $lastname = $this->input->post('lastname');
-                    $picture_path = $this->input->post('picture');
                     $reg_email = $this->input->post('reg_email');
                     $reg_password = $this->hashPass($this->input->post('reg_password'));
                     $password = $reg_password['password'];
@@ -189,14 +188,14 @@ class Suser extends CI_Controller
 
                     $schoolgroup_id = (int)$this->input->post('schoolgroup_id');
                     $date_of_birth = $this->input->post('date_of_birth');
-                    $this->Susermodel->add_teacher($firstname, $lastname, $picture_path, $reg_email, $date_of_birth, $schoolgroup_id, $password, $reg_salt);
 
-                    if ($this->upload->do_upload($picture_path)) {
+                    if ($this->upload->do_upload('picture')) {
                         $output['upload_data'] = $this->upload->data();
+                        $this->Susermodel->add_teacher($firstname, $lastname, $output['upload_data']["file_name"], $reg_email, $date_of_birth, $schoolgroup_id, $password, $reg_salt);
                         $this->load->view('suser/success', $output);
+                    } else {
+                    $this->load->view('suser/not_success', $output);
                     }
-                    $this->load->view('suser/success', $output);
-
                 }
             }
             $this->load->view('suser/add_teacher', $output);
@@ -218,13 +217,13 @@ class Suser extends CI_Controller
             $this->form_validation->set_rules('reg_passconf', 'Password Confirmation', 'trim|required|matches[reg_password]');
             if (isset($email) && $this->form_validation->run() === TRUE) {
                 $exists = $this->Susermodel->checkEmail($email);
-                // If posted email address is not present in members view/table:
+
                 if (!isset($exists[0]->email)) {
                     $config = array(
                         'upload_path' => "assets/uploads/images/teachers/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
                         'overwrite' => TRUE,
-                        'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                        'max_size' => "2048000",
                         'max_height' => "768",
                         'max_width' => "1024"
                     );
@@ -232,20 +231,19 @@ class Suser extends CI_Controller
 
                     $firstname = $this->input->post('firstname'); //Returns radio button (group_id)
                     $lastname = $this->input->post('lastname');
-                    $picture_path = $this->input->post('picture');
                     $reg_email = $this->input->post('reg_email');
                     $reg_password = $this->hashPass($this->input->post('reg_password'));
                     $password = $reg_password['password'];
                     $reg_salt = $reg_password['salt'];
 
-                    $this->Susermodel->add_parent($firstname, $lastname, $picture_path, $reg_email, $password, $reg_salt);
 
-                    if ($this->upload->do_upload($picture_path)) {
+                    if ($this->upload->do_upload('picture')) {
                         $output['upload_data'] = $this->upload->data();
+                        $this->Susermodel->add_parent($firstname, $lastname, $output['upload_data']["file_name"], $reg_email, $password, $reg_salt);
                         $this->load->view('suser/success', $output);
+                    } else {
+                    $this->load->view('suser/not_success', $output);
                     }
-                    $this->load->view('suser/success', $output);
-
                 }
             }
             $this->load->view('suser/add_parent', $output);
@@ -360,13 +358,13 @@ class Suser extends CI_Controller
                         'upload_path' => "assets/uploads/images/children/",
                         'allowed_types' => "gif|jpg|png|jpeg|pdf",
                         'overwrite' => TRUE,
-                        'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                        'max_size' => "2048000",
                         'max_height' => "800",
                         'max_width' => "1024"
                     );
                     $this->load->library('upload', $config);
 
-                    $firstname = $this->input->post('firstname'); //Returns radio button (group_id)
+                    $firstname = $this->input->post('firstname');
                     $lastname = $this->input->post('lastname');
                     $date_of_birth = $this->input->post('date_of_birth');
                     $reg_group_id = $this->input->post('reg_group_id');
@@ -377,8 +375,7 @@ class Suser extends CI_Controller
                         $this->Susermodel->add_child($firstname, $lastname, $date_of_birth, $reg_group_id,  $output['upload_data']["file_name"], $reg_grade);
                         $this->load->view('suser/success', $output);
                     }else{
-                        //itt not success view vagy hasonló kell, azza nem sikerült feltölteni uploadot kiszervezni megjavitani a formokat !
-                        $this->load->view('suser/success', $output);
+                        $this->load->view('suser/not_success', $output);
                     }
 
 

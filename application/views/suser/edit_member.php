@@ -23,7 +23,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a class="btn btn-google" href="<?php echo base_url() . 'suser/teachers/';?>">List</a>
 
                 <?php
-
                 if (!isset($chosen) || $chosen == "") {
                     $this->load->view('form_templates/select_chosen');
                 }
@@ -48,11 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ?>
 
             </div>
-        </section>
     </div>
 </div>
 
 <?php $this->load->view('templates/footer'); ?>
-
-</body>
-</html>

@@ -1,12 +1,10 @@
 <!--<form action="" method="post"> -->
-<?php echo form_open(current_url()); ?>
 <div class="register-box-body">
     <div class="register-box-body">
         <p class="login-box-msg">Register a new teacher</p>
 
         <?php echo validation_errors(); ?>
-        <?php echo form_open_multipart('add_teacher/do_upload');?>
-        <form role="form" name="register_teacher_form" action="<?php echo 'suser/add_teacher'?>" method="post">
+        <form role="form" name="register_teacher_form" action="<?php echo 'suser/add_teacher'?>" method="post" enctype="multipart/form-data" >
             <div class="form-group has-feedback">
                 <input name="firstname" type="text" class="form-control" placeholder="First Name">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
