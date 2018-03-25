@@ -12,7 +12,7 @@
             <a class="dropdown-item" href="<?php echo base_url() . "Teacher/my_progress_reports" . "/" . $this->session->userdata('my_id') ?>">Progress
                 Reports</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item bg-orange" href="<?php echo base_url() . "Teacher/add_progress_report" . "/" ?>">Add
+            <a class="dropdown-item bg-orange" href="<?php echo base_url() . "Teacher/add_report" . "/" ?>">Add
                 Progress Report</a>
         </div>
         <a class="btn btn-danger" href="<?php echo base_url() ?>">Back</a>

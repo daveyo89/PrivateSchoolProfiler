@@ -121,7 +121,6 @@ class Teacher extends CI_Controller
     public function add_report() {
         if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'teacher') {
             $output = array();
-            var_dump($this->getMyId());
             $this->form_validation->set_rules('teacher_report', 'Text', 'required');
             $output['report_children'] = $this->Teachermodel->getChildrenByGradeAndTeacher( $this->getMyId(),$this->getGrade());
 
