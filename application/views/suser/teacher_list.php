@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             if (!isset($item->group_picture)){$item->group_picture = "nophoto.png";}
                             ?>
                         <tr class="table-secondary">
-                            <td><?php echo $item->firstname;?></td>
+                            <td> <a href="<?php echo base_url() . "Suser/edit_eval/" .$item->id?>"><?php echo $item->firstname;?></a></td>
                             <td><?php echo $item->lastname;?></td>
                             <td><?php echo $item->email;?></td>
                             <td><?php echo $item->dob;?></td>

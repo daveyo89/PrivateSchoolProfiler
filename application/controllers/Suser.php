@@ -532,6 +532,23 @@ class Suser extends CI_Controller
         }
     }
 
+    public function edit_eval($id=-1)
+    {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'suser') {
+
+                $this->session->set_userdata('selected_eval_id', (int)$id);
+                $id = $this->session->userdata('selected_eval_id');
+
+                $output['eval_teachers'] = $this->Susermodel->getEvalById($id);
+            $data = $this->editBuilder();
+                if($data) {
+                    $this->Susermodel->editEval($data['id'], $data);
+                    $this->load->view('suser/success', $output);
+                    }
+            $this->load->view('suser/edit_eval', $output);
+        }
+    }
+
     /**
      * Helper functions
      */
@@ -551,6 +568,9 @@ class Suser extends CI_Controller
         $parent_id = $this->input->post('parent_id');
         $group_name = $this->input->post('group_name');
         $group_picture = $this->input->post('group_picture');
+        $edit_eval_id = (int)$this->input->post('edit_eval_id');
+
+        $edit_eval = $this->input->post('edit_eval_form');
 
 
         if (isset($firstname) && $firstname != "") {
@@ -594,6 +614,12 @@ class Suser extends CI_Controller
         }
         if (isset($group_picture) && $group_picture != "") {
             $data['group_picture'] = $group_picture;
+        }
+        if (isset($edit_eval_id) && $edit_eval_id != "") {
+            $data['id'] = $edit_eval_id;
+        }
+        if (isset($edit_eval) && $edit_eval != "") {
+            $data['teacher_eval'] = $edit_eval;
         }
 
         return $data;

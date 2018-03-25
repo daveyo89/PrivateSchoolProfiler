@@ -18,9 +18,11 @@ class Susermodel extends CI_Model
      * @return array
      */
     public function getOngoingTeachersGroups($grade, $search_firstname, $group_name) {
-        $sql = "SELECT * FROM teacher tc 
-			LEFT JOIN school_group sg 
-			ON(tc.group_id = sg.id)
+        $sql = "SELECT tc.id, tc.firstname, tc.lastname, tc.email, tc.dob, tc.picture_path, 
+                       tc.group_id, tc.deleted, tc.grade, tc.updated,
+                       sg.id sid, sg.group_name, sg.group_picture
+                FROM teacher tc
+                LEFT JOIN school_group sg ON(tc.group_id = sg.id)
 			WHERE sg.grade = " . $grade . " 
 			AND tc.firstname = ". $search_firstname . " 
 			AND sg.group_name = ". $group_name . " 
@@ -243,6 +245,19 @@ class Susermodel extends CI_Model
         }
     }
 
+    public function getEvalById($id)
+    {
+        $sql = "SELECT * FROM privateschoolprofiler.teacher_eval 
+                WHERE teacher_id = " . $id . "
+                ORDER by crd_eval";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            return $result;
+        }
+        return array();
+    }
+
     public function getEveryGroup($grade) {
         $sql = "SELECT * FROM school_group
                 WHERE grade = ". $grade ." ";
@@ -388,6 +403,13 @@ class Susermodel extends CI_Model
     public function editMember($table_name, $selected_id, array $editData) {
         $this->db->where('id', $selected_id);
         $this->db->update($table_name, $editData);
+    }
+
+    public function editEval($id, $editData) {
+        $this->db->set('id', $editData['id']);
+        $this->db->set('teacher_eval', $editData['teacher_eval']);
+        $this->db->where('id', $id);
+        $this->db->update('teacher_eval', $editData);
     }
 
 

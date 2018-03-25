@@ -26,22 +26,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     Teachers
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?php echo current_url() . "/teachers" . "/" . $grade ?>">Members</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . "Suser/teachers" . "/" . $grade ?>">Members</a>
                     <a class="dropdown-item"
-                       href="<?php echo current_url() . "/evals" . "/" . $grade ?>">Evaluations</a>
+                       href="<?php echo base_url() . "Suser/evals" . "/" . $grade ?>">Evaluations</a>
                     <a class="dropdown-item"
-                       href="<?php echo current_url() . "/comments" . "/" . $grade ?>">Comments</a>
-                    <a class="dropdown-item" href="<?php echo current_url() . "/progress_reports" . "/" . $grade ?>">Progress
+                       href="<?php echo base_url() . "Suser/comments" . "/" . $grade ?>">Comments</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . "Suser/progress_reports" . "/" . $grade ?>">Progress
                         Reports</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item bg-orange" href="<?php echo current_url() . "/add_eval" . "/" . $grade ?>">Add
+                    <a class="dropdown-item bg-orange" href="<?php echo base_url() . "Suser/add_eval" . "/" . $grade ?>">Add
                         Evaluation</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bg-teal-gradient"
-                       href="<?php echo current_url() . "/add_teacher" . "/" . $grade ?>">Add Teacher</a>
+                       href="<?php echo base_url() . "Suser/add_teacher" . "/" . $grade ?>">Add Teacher</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bg-light-blue"
-                       href="<?php echo current_url() . "/edit_member" . "/" . $grade ?>">Edit Teacher</a>
+                       href="<?php echo base_url() . "Suser/edit_member" . "/" . $grade ?>">Edit Teacher</a>
                 </div>
             </div>
             <div class="dropdown">
