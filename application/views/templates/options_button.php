@@ -8,8 +8,8 @@
             <a class="dropdown-item"
                href="<?php echo base_url() . "Teacher/my_evals" . "/" . $this->session->userdata('my_id')?>">Evaluations</a>
             <a class="dropdown-item"
-               href="<?php echo base_url() . "Teacher/my_comments" . "/" ?>">Comments</a>
-            <a class="dropdown-item" href="<?php echo base_url() . "Teacher/my_progress_reports" . "/" ?>">Progress
+               href="<?php echo base_url() . "Teacher/my_comments" . "/" . $this->session->userdata('my_id') ?>">Comments</a>
+            <a class="dropdown-item" href="<?php echo base_url() . "Teacher/my_progress_reports" . "/" . $this->session->userdata('my_id') ?>">Progress
                 Reports</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item bg-orange" href="<?php echo base_url() . "Teacher/add_progress_report" . "/" ?>">Add

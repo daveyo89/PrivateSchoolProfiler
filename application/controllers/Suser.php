@@ -640,9 +640,9 @@ class Suser extends CI_Controller
 
     public function getGrade()
     {
-        $grade = $this->input->post('grade_year');
+        $grade = (int)$this->input->post('grade_year');
 
-        if (isset($grade) && $grade !== "") {
+        if (isset($grade) && $grade !== "" && $grade !== 0) {
             $this->session->set_userdata('grade_year', $grade);
             $grade = $this->session->userdata('grade_year');
         } else {
@@ -712,14 +712,13 @@ class Suser extends CI_Controller
 
     private function getQuarter()
     {
-        $quarter = $this->input->post('quarter');
+        $quarter = (int)$this->input->post('quarter');
 
-        if (isset($quarter) && $quarter !== "") {
-            $this->session->set_userdata('quarter', $_POST['quarter']);
+        if (isset($quarter) && $quarter !== "" && $quarter !== 0) {
+            $this->session->set_userdata('quarter', $quarter);
             $quarter = (int)$this->session->userdata('quarter');
             return $quarter;
         } else {
-
             return $quarter = 1;
         }
     }

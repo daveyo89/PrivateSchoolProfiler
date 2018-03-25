@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <title>PSP | My Class</title>
 </head>
-<body class="hold-transition skin-red-light sidebar-mini">
+<body class="hold-transition skin-yellow-light sidebar-mini">
 <div class="wrapper">
     <?php $this->load->view('templates/header'); ?>
     <?php $this->load->view('templates/userpanel'); ?>
@@ -19,28 +19,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <section class="content-header">
         </section>
         <?php $this->load->view('templates/options_button') ?>
+        <a class="btn btn-warning" href="<?php echo base_url() . "Teacher/add_comment"?>">Add Comment</a>
         <div class="full-width" style="text-align: center">
             <div class="justify-content-center full-width">
                 <table class="table-bordered" style="width: 100%">
-                    <thead class="table-primary">My Evaluations
+                    <thead class="table-primary">My Comments
                     <tr>
                         <th>Created on</th>
-                        <th>Educational Year</th>
-                        <th>Evaluation</th>
+                        <th>Child Name</th>
+                        <th>Date of Birth</th>
+                        <th>Child Age</th>
+                        <th>Comment</th>
                         <th>Updated on</th>
+                        <th>           </th>
                     </tr>
                     </thead>
                     <tbody class="table-secondary">
 
                     <?php
-                    foreach ($eval_data as $data) {
+                    foreach ($dataset as $data) {
                         ?>
                         <tr>
-                            <td><?php echo $data['crd_eval'] ?></td>
-                            <td><?php echo $data['eval_grade'] ?></td>
-                            <td><textarea style="width: 100%; height: 120px" readonly><?php echo $data['teacher_eval'] ?></textarea></td>
+                            <td><?php echo date('Y-m-d : H:m',strtotime($data['crd_cm'])) ?></td>
+                            <td><?php echo $data['firstname'] ." " . $data['lastname'] ?></td>
+                            <td><?php echo $data['dob']?></td>
+                            <td><?php echo $data['age']?></td>
+                            <td><textarea style="width: 100%; height: 120px" readonly><?php echo $data['teacher_comment'] ?></textarea></td>
                             <td><?php echo $data['updated'] ?></td>
-
+                            <td><a href="<?php echo base_url() . "Teacher/edit_comment/" . $data['id']?>" class="btn-success btn">Edit</a></td>
                         </tr>
 
                     <?php } ?>

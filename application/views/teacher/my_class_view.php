@@ -47,7 +47,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php } ?>
                     </tbody>
                 </table>
-                <p class="pull-right"><?php echo "Class teachers: " . $class_data[0]['class_teachers']?></p>
+
+                <p class="pull-right"><?php echo "Class teachers : " . $class_data[0]['class_teachers']?></p>
             </div>
             <div class="grid pull-right list-group">
             </div>

@@ -19,6 +19,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </section>
         <?php $this->load->view('templates/options_button') ?>
 
+        <?php echo form_open('Teacher'); ?>
+        <label class="label-default"> Select starting year
+            <input type="text" style="max-width: 15%; height: auto" name="grade_year" class="ion-information-circled"
+                   value="<?php echo $def_year;?>" placeholder="">
+            <button type="submit" class="btn btn-primary btn-flat">Continue</button>
+        </label>
+        </form>
+
         <div class="full-width" style="text-align: center">
             <div class="grid pull-left list-group">
                 <a><?php echo $self_data[0]['firstname'] . " " . $self_data[0]['lastname'] ?></a>

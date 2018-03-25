@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php if (isset($teacher_list)) {
                     $this->load->view('form_templates/search_form');
                     ?>
+                    <br><label>Click on firstname to view evaluations</label>
                     <table class="table table-bordered table-info" style="width: 100%;">
                         <tr class="table table-primary">
                             <th>First Name</th>
