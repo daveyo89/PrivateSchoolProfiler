@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2018. Már 18. 18:49
+-- Létrehozás ideje: 2018. Már 26. 21:25
 -- Kiszolgáló verziója: 10.1.29-MariaDB
 -- PHP verzió: 7.2.0
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `privateschoolprofiler`
 --
-CREATE DATABASE IF NOT EXISTS `privateschoolprofiler` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `privateschoolprofiler`;
 
 -- --------------------------------------------------------
 
@@ -36,33 +34,39 @@ CREATE TABLE `child` (
   `lastname` varchar(45) DEFAULT NULL,
   `dob` datetime DEFAULT NULL,
   `group_id` int(11) NOT NULL,
-  `picture_path` varchar(255) DEFAULT NULL,
+  `picture_path` varchar(255) DEFAULT 'crop.jpg',
   `crd_ch` timestamp NULL DEFAULT NULL,
-  `grade` year(4) DEFAULT NULL
+  `grade` year(4) DEFAULT NULL,
+  `parent_id` int(11) NOT NULL,
+  `deleted` tinyint(4) DEFAULT '2'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `child`
 --
 
-INSERT INTO `child` (`id`, `firstname`, `lastname`, `dob`, `group_id`, `picture_path`, `crd_ch`, `grade`) VALUES
-(1, 'El', 'Arundale', '2014-08-22 05:11:37', 1, NULL, NULL, 2017),
-(2, 'Paul', 'Lamminam', '2012-05-26 17:02:05', 2, NULL, NULL, 2017),
-(3, 'Cassie', 'Filov', '2012-09-17 11:10:38', 2, NULL, NULL, 2017),
-(4, 'Catriona', 'Crab', '2012-02-21 00:32:14', 1, NULL, NULL, 2017),
-(5, 'Mickie', 'Kernes', '2012-09-24 10:21:09', 1, NULL, NULL, 2017),
-(6, 'Jaquenetta', 'Potteridge', '2012-03-13 00:06:40', 1, 'e7385-20642385_1494752407230767_520913454_o.jpg', NULL, 2017),
-(7, 'Ronnica', 'Lambal', '2014-03-19 12:15:03', 1, NULL, NULL, 2017),
-(8, 'Elyse', 'Credland', '2012-12-06 18:10:29', 1, NULL, NULL, 2017),
-(9, 'Wadsworth', 'Nolin', '2012-09-16 04:57:43', 1, NULL, NULL, 2017),
-(10, 'Maryjo', 'Earngy', '2013-10-04 12:20:57', 1, NULL, NULL, 2018),
-(11, 'Lelah', 'Jervis', '2012-06-27 17:11:30', 1, NULL, NULL, 2018),
-(12, 'Cloe', 'Jermey', '2012-02-11 05:39:00', 1, NULL, NULL, 2017),
-(13, 'Fons', 'Girkins', '2013-09-05 21:41:55', 1, NULL, NULL, 2017),
-(14, 'Jami', 'Larkby', '2013-10-11 08:41:16', 1, '135fb-13607850_1115396475166364_78423259_n.jpg', NULL, 2017),
-(15, 'Maury', 'Sharer', '2012-09-22 00:43:46', 1, NULL, NULL, 2018),
-(16, 'Kis', 'Majjom', '2018-10-01 00:00:00', 4, NULL, NULL, 2017),
-(17, 'Monkey', 'Mensch Jr', '1987-03-20 00:00:00', 4, 'jarjar.jpg', '2018-03-17 14:01:02', 2017);
+INSERT INTO `child` (`id`, `firstname`, `lastname`, `dob`, `group_id`, `picture_path`, `crd_ch`, `grade`, `parent_id`, `deleted`) VALUES
+(1, 'El', 'Arundale', '2014-08-22 05:11:37', 1, 'crop.jpg', NULL, 2017, 1, 2),
+(2, 'Paul', 'Lamminam', '2012-05-26 17:02:05', 2, 'crop.jpg', NULL, 2017, 2, 2),
+(3, 'Cassie', 'Filov', '2012-09-17 11:10:38', 2, 'crop.jpg', NULL, 2017, 3, 2),
+(4, 'Catriona', 'Crab', '2012-02-21 00:32:14', 1, 'crop.jpg', NULL, 2017, 4, 2),
+(5, 'Mickie', 'Kernes', '2012-09-24 10:21:09', 1, 'crop.jpg', NULL, 2017, 5, 2),
+(6, 'Jaquenetta', 'Potteridge', '2012-03-13 00:06:40', 1, 'e7385-20642385_1494752407230767_520913454_o.jpg', NULL, 2017, 6, 2),
+(7, 'Ronnica', 'Lambal', '2014-03-19 12:15:03', 1, 'crop.jpg', NULL, 2017, 7, 2),
+(8, 'Elyse', 'Credland', '2012-12-06 18:10:29', 1, 'crop.jpg', NULL, 2017, 8, 2),
+(9, 'Wadsworth', 'Nolin', '2012-09-16 04:57:43', 1, 'crop.jpg', NULL, 2017, 1, 2),
+(10, 'Maryjo', 'Earngy', '2013-10-04 12:20:57', 1, 'crop.jpg', NULL, 2018, 2, 2),
+(11, 'Lelah', 'Jervis', '2012-06-27 17:11:30', 1, 'crop.jpg', NULL, 2018, 3, 2),
+(12, 'Cloe', 'Jermey', '2012-02-11 05:39:00', 1, 'crop.jpg', NULL, 2017, 4, 2),
+(13, 'Fons', 'Girkins', '2013-09-05 21:41:55', 1, 'crop.jpg', NULL, 2017, 5, 2),
+(14, 'Jami', 'Larkby', '2013-10-11 08:41:16', 1, '135fb-13607850_1115396475166364_78423259_n.jpg', NULL, 2017, 6, 2),
+(15, 'Maury', 'Sharer', '2012-09-22 00:43:46', 1, 'crop.jpg', NULL, 2018, 7, 2),
+(16, 'Kis', 'Majjom', '2018-10-01 00:00:00', 4, 'crop.jpg', NULL, 2017, 8, 2),
+(17, 'Monkey', 'Mensch Jr', '1987-03-20 00:00:00', 4, 'jarjar.jpg', '2018-03-17 14:01:02', 2017, 1, 2),
+(18, 'Henki', 'Penki', '2018-03-06 00:00:00', 3, 'kismajmok-12.jpg', '2018-03-24 09:44:02', 2017, 0, 2),
+(19, 'Monkey', 'Karcolo', '2018-02-25 00:00:00', 4, 'seesharp.jpg', '2018-03-24 09:46:56', 2017, 0, 2),
+(20, 'Fluffy', 'McEnroe', '2015-12-29 00:00:00', 6, 'Fluffy.jpg', '2018-03-24 11:52:28', 2018, 23, 2),
+(21, 'Little', 'Roseey', '2016-02-02 00:00:00', 7, 'rommepjr.jpg', '2018-03-24 19:20:55', 2018, 1, 2);
 
 --
 -- Eseményindítók `child`
@@ -85,23 +89,25 @@ CREATE TABLE `comment` (
   `teacher_comment` varchar(255) DEFAULT NULL,
   `child_id` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
-  `crd_cm` timestamp NULL DEFAULT NULL
+  `crd_cm` timestamp NULL DEFAULT NULL,
+  `updated` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `comment`
 --
 
-INSERT INTO `comment` (`id`, `teacher_comment`, `child_id`, `teacher_id`, `crd_cm`) VALUES
-(1, 'This is dumm', 1, 2, '2017-09-17 22:00:00'),
-(2, 'Yoko', 1, 3, '2017-09-17 22:00:00'),
-(3, 'Toko holookoko ', 1, 10, '2017-09-17 22:00:00'),
-(4, 'Hama kuma', 2, 2, '2017-09-17 22:00:00'),
-(5, 'Huhu', 2, 1, '2017-09-17 22:00:00'),
-(6, 'Oz nem validi', 2, 1, '2017-09-17 22:00:00'),
-(7, 'ez buta', 3, 9, '2017-09-17 22:00:00'),
-(8, 'ez gyagya', 3, 8, '2017-09-17 22:00:00'),
-(9, 'ez figyula', 3, 1, '2017-09-17 22:00:00');
+INSERT INTO `comment` (`id`, `teacher_comment`, `child_id`, `teacher_id`, `crd_cm`, `updated`) VALUES
+(1, 'This is dumm', 1, 2, '2017-09-17 22:00:00', NULL),
+(2, 'Yoko', 1, 3, '2017-09-17 22:00:00', NULL),
+(3, 'Toko holookoko ', 1, 10, '2017-09-17 22:00:00', NULL),
+(4, 'Hama kuma', 2, 2, '2017-09-17 22:00:00', NULL),
+(5, 'Huhu', 2, 1, '2017-09-17 22:00:00', NULL),
+(6, 'Oz nem validi hahasadfasdf mukodik ahaha', 2, 5, '2017-09-17 22:00:00', '2018-03-25 18:07:03'),
+(7, 'ez buta', 3, 9, '2017-09-17 22:00:00', NULL),
+(8, 'ez gyagya', 3, 8, '2017-09-17 22:00:00', NULL),
+(9, 'ez figyula', 3, 5, '2017-09-17 22:00:00', '2018-03-25 15:50:07'),
+(10, 'Markoló vagyok, vagy mégsem?!', 21, 5, '2018-03-25 18:59:58', '2018-03-25 19:00:11');
 
 --
 -- Eseményindítók `comment`
@@ -109,6 +115,12 @@ INSERT INTO `comment` (`id`, `teacher_comment`, `child_id`, `teacher_id`, `crd_c
 DELIMITER $$
 CREATE TRIGGER `comment_BEFORE_INSERT` BEFORE INSERT ON `comment` FOR EACH ROW BEGIN
 	SET NEW.crd_cm = NOW();
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `comment_BEFORE_UPDATE` BEFORE UPDATE ON `comment` FOR EACH ROW BEGIN
+SET NEW.updated = CURRENT_TIMESTAMP; 
 END
 $$
 DELIMITER ;
@@ -147,37 +159,38 @@ CREATE TABLE `parent` (
   `crd` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '2',
   `picture_path` varchar(255) DEFAULT NULL,
-  `child_id` int(11) NOT NULL,
-  `updated` timestamp NULL DEFAULT NULL
+  `updated` timestamp NULL DEFAULT NULL,
+  `grade` year(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `parent`
 --
 
-INSERT INTO `parent` (`id`, `firstname`, `lastname`, `email`, `password`, `salt`, `crd`, `deleted`, `picture_path`, `child_id`, `updated`) VALUES
-(1, 'Scott', 'Kelly Jr.', 'astolz0@moonfruit.com', NULL, NULL, NULL, 2, 'james.jpg', 1, NULL),
-(2, 'Addia', 'Cartin', 'pdorking1@cmu.edu', NULL, NULL, NULL, 2, 'lily.jpg', 2, NULL),
-(3, 'Jerome', 'Lavielle', 'fmerdew2@addthis.com', NULL, NULL, NULL, 2, 'marian.jpg', 3, NULL),
-(4, 'Cacilie', 'Fearnyough', 'bgilbart3@d.com', NULL, NULL, NULL, 2, NULL, 4, NULL),
-(5, 'Maison', 'Castello', 'cyule4@over-blog.com', NULL, NULL, NULL, 2, NULL, 5, NULL),
-(6, 'Charla', 'Footitt', 'ypetrus5@imgur.com', NULL, NULL, NULL, 2, NULL, 6, NULL),
-(7, 'Dorian', 'Turgoose', 'bgilbeart3@soundcloud.com', NULL, NULL, NULL, 2, NULL, 7, NULL),
-(8, 'Hatti', 'Longhorne', NULL, NULL, NULL, NULL, 2, NULL, 8, NULL),
-(9, 'Erinna', 'Windress', NULL, NULL, NULL, NULL, 2, NULL, 9, NULL),
-(10, 'Rubie', 'Cardenas', NULL, NULL, NULL, NULL, 2, NULL, 10, NULL),
-(11, 'Bjorn', 'Brind', NULL, NULL, NULL, NULL, 2, NULL, 11, NULL),
-(12, 'Lisha', 'Yukhin', NULL, NULL, NULL, NULL, 2, NULL, 12, NULL),
-(13, 'Mack', 'Hedworth', NULL, NULL, NULL, NULL, 2, NULL, 13, NULL),
-(14, 'Dillie', 'Esche', NULL, NULL, NULL, NULL, 2, NULL, 14, NULL),
-(15, 'Neddie', 'Bakey', NULL, NULL, NULL, NULL, 2, NULL, 15, NULL),
-(16, 'Hubey', 'Spatig', NULL, NULL, NULL, NULL, 2, NULL, 16, NULL),
-(17, 'Kellie', 'Wadie', NULL, NULL, NULL, NULL, 2, NULL, 12, NULL),
-(18, 'Rubin', 'Doerrling', NULL, NULL, NULL, NULL, 2, NULL, 11, NULL),
-(19, 'Colman', 'Pidgeon', NULL, NULL, NULL, NULL, 2, NULL, 1, NULL),
-(20, 'Kimberli', 'Chiommienti', NULL, NULL, NULL, NULL, 2, NULL, 2, NULL),
-(21, 'Monkey', 'Mensch', 'j.majom@monkeyland.hu', '0ee66be42a47f12ed43daf579198eebf5950876219974ecee13532a838dc76116084ad63883ea82bd316ed4347520b4c41585c6a8dc58fc4110a6387054e655b', '278', '2018-03-17 12:29:05', 2, 'beci.jpg', 16, NULL),
-(22, 'Felho', 'Karcolo', 'felh@karc.hu', '03c1b00ed6c2b46e676486cbac761eb7615c08d692eaefe978b081a5b22219c7e85062477c79e1c239d5d22fd6a32c043d9d9b144fd70fce8e29e7ae37408153', '208', '2018-03-17 14:53:10', 2, 'jarjar.jpg', 12, NULL);
+INSERT INTO `parent` (`id`, `firstname`, `lastname`, `email`, `password`, `salt`, `crd`, `deleted`, `picture_path`, `updated`, `grade`) VALUES
+(1, 'Scott', 'Kelly Jr.', 'astolz0@moonfruit.com', NULL, NULL, NULL, 2, 'james.jpg', '2018-03-24 11:58:29', 2017),
+(2, 'Addia', 'Cartin', 'pdorking1@cmu.edu', NULL, NULL, NULL, 2, 'lily.jpg', '2018-03-24 11:58:30', 2017),
+(3, 'Jerome', 'Lavielle', 'fmerdew2@addthis.com', NULL, NULL, NULL, 2, 'marian.jpg', '2018-03-24 11:58:30', 2017),
+(4, 'Cacilie', 'Fearnyough', 'bgilbart3@d.com', NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(5, 'Maison', 'Castello', 'cyule4@over-blog.com', NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(6, 'Charla', 'Footitt', 'ypetrus5@imgur.com', NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(7, 'Dorian', 'Turgoose', 'bgilbeart3@soundcloud.com', NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(8, 'Hatti', 'Longhorne', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(9, 'Erinna', 'Windress', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(10, 'Rubie', 'Cardenas', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(11, 'Bjorn', 'Brind', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(12, 'Lisha', 'Yukhin', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(13, 'Mack', 'Hedworth', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(14, 'Dillie', 'Esche', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(15, 'Neddie', 'Bakey', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(16, 'Hubey', 'Spatig', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(17, 'Kellie', 'Wadie', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(18, 'Rubin', 'Doerrling', NULL, NULL, NULL, NULL, 2, 'mariano.jpg', '2018-03-24 11:58:30', 2017),
+(19, 'Colman', 'Pidgeon', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(20, 'Kimberli', 'Chiommienti', NULL, NULL, NULL, NULL, 2, NULL, '2018-03-24 11:58:30', 2017),
+(21, 'Monkey', 'Mensch', 'j.majom@monkeyland.hu', '0ee66be42a47f12ed43daf579198eebf5950876219974ecee13532a838dc76116084ad63883ea82bd316ed4347520b4c41585c6a8dc58fc4110a6387054e655b', '278', '2018-03-17 12:29:05', 2, 'beci.jpg', '2018-03-24 11:58:30', 2017),
+(22, 'Felho', 'Karcolo', 'felh@karc.hu', '03c1b00ed6c2b46e676486cbac761eb7615c08d692eaefe978b081a5b22219c7e85062477c79e1c239d5d22fd6a32c043d9d9b144fd70fce8e29e7ae37408153', '208', '2018-03-17 14:53:10', 2, 'jarjar.jpg', '2018-03-24 11:58:30', 2017),
+(23, 'Bukkinakki', 'Malmi', 'mm@bakker.hu', '1682ecf9f69c6ccb344441d4bb59f32d11c04d0a4bf29745b0665320c65f8a7a9fed0a41705f7554640fbd938f055d31c331c3cfe6348d466224def89ec89a21', '540', '2018-03-24 11:53:50', 2, 'miklos.jpg', '2018-03-24 13:47:34', 2018);
 
 --
 -- Eseményindítók `parent`
@@ -208,7 +221,7 @@ CREATE TABLE `progress_post` (
   `teacher_id` int(11) NOT NULL,
   `crd_pp` timestamp NULL DEFAULT NULL,
   `updated` timestamp NULL DEFAULT NULL,
-  `quarter` tinyint(1) DEFAULT NULL,
+  `quarter` int(11) DEFAULT NULL,
   `grade` year(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -221,7 +234,7 @@ INSERT INTO `progress_post` (`id`, `progress_post`, `child_id`, `teacher_id`, `c
 (2, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\r \r In congue. Etiam justo. Etiam pretium iaculis justo.\r \r In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\r \r Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\r \r Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\r \r Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.d Nunc purus.', 13, 8, NULL, '2018-03-16 13:43:53', 1, 2017),
 (3, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\r \r Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\r \r Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\r \r Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulpaasdfsdfutate luctus.d', 1, 1, '2018-03-10 10:26:22', '2018-03-16 13:43:53', 1, 2017),
 (4, 'In congue. Etiam justo. Etiam pretium iaculis justo.\r \r In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\r \r Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\r \r Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\r \r Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\r \r Phasellus in felis. Donec semper sapien a libero. Nam duis.', 3, 2, NULL, '2018-03-16 13:43:53', 1, 2017),
-(5, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\r \r Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\r \r Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\r \r Phasellus in felis. Donec semper sapien a libero. Nam dui.\r \r Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quisasd odio consequat varisus.', 4, 5, NULL, '2018-03-16 13:43:53', 1, 2017),
+(5, 'Pöcs', 4, 5, NULL, '2018-03-26 13:57:40', 1, 2017),
 (6, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\r \r Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\r \r Phasellus in felis. Donec semper sapien a libero. Nam dui.\r \r Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.\r \r Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.\r \r Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lascus.', 9, 4, NULL, '2018-03-16 13:43:53', 1, 2017),
 (7, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\r \r Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\r \r Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\r \r Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.\r \r In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectsus.', 7, 5, NULL, '2018-03-16 13:43:53', 1, 2017),
 (8, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\r \r Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\r \r Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\r \r Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\r \r Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.\r \r Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odsio.', 6, 1, NULL, '2018-03-16 13:43:53', 1, 2017),
@@ -264,7 +277,14 @@ INSERT INTO `progress_post` (`id`, `progress_post`, `child_id`, `teacher_id`, `c
 (47, 'Hoki moki', 3, 9, '2018-03-12 20:55:14', '2018-03-16 13:43:53', 1, 2017),
 (48, 'yaya', 3, 9, '2018-03-12 21:16:58', '2018-03-16 13:43:53', 2, 2017),
 (51, 'fogyó gyogyó', 7, 9, '2018-03-12 21:46:49', '2018-03-16 13:43:53', 3, 2017),
-(52, 'maki pukika', 5, 1, '2018-03-16 13:00:56', '2018-03-16 13:43:53', 1, 2017);
+(52, 'maki pukika', 5, 1, '2018-03-16 13:00:56', '2018-03-16 13:43:53', 1, 2017),
+(53, 'Nincs szükség ideiglenes táblára (max a db kezelő csinál egyet a háttérben, de ezzel neked nem kell foglalkoznod), SQL alapismeretekre van szükség. select ... from tabla inner join tabla2 on ... inner join tabla 3 on ... Az első példánál maradva inner join majd egy left join where ... is null-lal megspékelve.', 16, 5, '2018-03-25 20:16:26', NULL, 1, 2017),
+(54, 'Ez a majom annyit karcol h az nonszensz', 19, 5, '2018-03-26 13:30:16', NULL, 1, 2017),
+(55, 'Békhaerceg legendaja', 16, 5, '2018-03-26 14:09:05', NULL, 1, 2017),
+(56, 'Beka herceg masodik pukizód', 16, 5, '2018-03-26 14:09:21', NULL, 1, 2017),
+(71, 'asdfasdfasfas', 16, 5, '2018-03-26 14:55:53', NULL, 1, 2017),
+(72, 'hollenayo', 16, 5, '2018-03-26 14:56:44', NULL, 1, 2017),
+(73, 'Mostmár jó', 16, 5, '2018-03-26 15:02:18', NULL, 3, 2017);
 
 --
 -- Eseményindítók `progress_post`
@@ -272,7 +292,6 @@ INSERT INTO `progress_post` (`id`, `progress_post`, `child_id`, `teacher_id`, `c
 DELIMITER $$
 CREATE TRIGGER `progress_post_BEFORE_INSERT` BEFORE INSERT ON `progress_post` FOR EACH ROW BEGIN
 	SET NEW.crd_pp = NOW();
-    SET NEW.quarter = QUARTER(CURDATE()); 
 END
 $$
 DELIMITER ;
@@ -301,11 +320,13 @@ CREATE TABLE `school_group` (
 --
 
 INSERT INTO `school_group` (`id`, `group_name`, `group_picture`, `grade`) VALUES
-(1, 'red barists', NULL, 2017),
-(2, 'busy burglars', '718c5-ouroboros.jpg', 2017),
+(1, 'red ranchors', 'redrancor.jpg', 2017),
+(2, 'busy bees', '87cb2-ouroboros.jpg', 2017),
 (3, 'vengeful vultures', NULL, 2017),
-(4, 'maniac mongrel', '4eff8-ragnarok2.jpg', 2017),
-(5, 'prideful parrots', NULL, 2016);
+(4, 'Merciless Matadors', '4eff8-ragnarok2.jpg', 2017),
+(5, 'prideful parrots', NULL, 2016),
+(6, 'Pinky Ponies', 'raptor.jpg', 2018),
+(7, 'Rommels Robbers', 'erwin-rommel-AB.jpeg', 2018);
 
 -- --------------------------------------------------------
 
@@ -391,26 +412,20 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`id`, `firstname`, `lastname`, `email`, `password`, `salt`, `crd`, `dob`, `picture_path`, `group_id`, `deleted`, `grade`, `updated`) VALUES
-(1, 'Simonette', 'Preist', 'spreist0@nih.gov', NULL, NULL, NULL, '1959-07-09 00:00:00', '87423-10495131_851882028156793_3187780581440248401_o.jpg', 4, 2, 2017, NULL),
-(2, 'Kessiah', 'Stallwood', 'kstallwood1@state.gov', NULL, NULL, NULL, '1982-02-28 00:00:00', NULL, 2, 2, 2017, NULL),
+(1, 'Simonette', 'Preist', 'spreist0@nih.gov', NULL, NULL, NULL, '1959-07-09 00:00:00', 'admin.jpg', 4, 2, 2017, '2018-03-24 19:10:15'),
+(2, 'Kessiah', 'Stallwood', 'kstallwood1@state.gov', NULL, NULL, NULL, '1982-02-28 00:00:00', 'crop.jpg', 2, 2, 2017, '2018-03-23 16:17:20'),
 (3, 'Antonie', 'Ballsdon', 'aballsdon2@answers.com', NULL, NULL, NULL, '1956-11-14 00:00:00', '4d6bc-2014-02-15-20.46.09.jpg', 3, 2, 2017, NULL),
 (4, 'Lindsey', 'Gaythorpe', 'lgaythorpe3@princeton.edu', NULL, NULL, NULL, '1981-09-13 00:00:00', NULL, 4, 2, 2017, NULL),
-(5, 'Robert', 'Paulson Jr.', 'fightclub@berlin.de', '17fbbcd9b37edaa668447ab75415f9eb7a3c1976ca600922aab520ab5e71ddfca4ac5935ef7cbf1c6e48cab8989146b2746728f4af0e07bee4ad7f8e8fc37ca6', '899', NULL, '1989-05-31 00:00:00', 'paulson.jpg', 4, 2, NULL, '2018-03-18 15:24:30'),
+(5, 'Roberts', 'Paulson Jr.', 'fightclub@berlin.de', '17fbbcd9b37edaa668447ab75415f9eb7a3c1976ca600922aab520ab5e71ddfca4ac5935ef7cbf1c6e48cab8989146b2746728f4af0e07bee4ad7f8e8fc37ca6', '899', NULL, '1989-05-31 00:00:00', 'erwin-rommel-AB.jpeg', 4, 2, 2017, '2018-03-24 21:37:35'),
 (6, 'Alaine', 'Daveran', 'adaveran5@ameblo.jp', NULL, NULL, NULL, '1955-10-02 00:00:00', '94d34-12606732_1132756426741970_1938598289_n.jpg', 1, 2, 2017, NULL),
 (7, 'Etti', 'Stobbie', 'estobbie6@lulu.com', NULL, NULL, NULL, '1969-09-16 00:00:00', NULL, 2, 2, 2017, NULL),
 (8, 'Audrye', 'Rishbrook', 'arishbrook7@amazonaws.com', NULL, NULL, NULL, '1952-07-17 00:00:00', NULL, 1, 1, 2017, NULL),
 (9, 'Halette', 'Govey', 'hgovey8@hc360.com', NULL, NULL, NULL, '1993-03-05 00:00:00', '60eab-bro1.jpg', 2, 2, 2017, NULL),
 (10, 'Brion', 'Swadon', 'bswadon9@homestead.com', NULL, NULL, NULL, '2010-01-08 00:00:00', NULL, 3, 1, 2017, NULL),
 (13, 'Bela', 'Bacsi', 'bela.bacsi@bela.hu', NULL, NULL, NULL, NULL, NULL, 4, 1, 2017, NULL),
-(14, 'David', 'Bacsi', 'yakab@kaka.hu', NULL, NULL, '2018-03-16 19:04:01', NULL, 'Ragnarok2.jpg', 3, 2, 2017, NULL),
-(15, 'David', 'KAKA', 'yuououououkook@baka.hu', NULL, '?2S?j?k?-Jo?=?ƭ?A??J??v!??3?H????m?F?????', '2018-03-16 19:48:09', '2018-03-14 00:00:00', 'Ragnarok2.jpg', 2, 2, 2018, NULL),
-(16, 'David', 'KAKAfes', 'jolloolol@gagagagag.hu', '301fad3d4fffdc0b7ec57648e454fe68e8e39f5cd7f1d9f0b04e1c29e045c63b7874b792ef3cacc8fb37b0effe75357c663d349074145998d783b5eb84642584', '463', '2018-03-16 19:59:27', '2018-03-14 00:00:00', 'odin.jpg', 2, 2, 2018, NULL),
-(17, 'dave', 'nihil', 'majomfasz@holokauszt.hu', 'c73098cccb1ed9f0bbc44e9e8588fede86c4c17bdcb2b176984ef292816d3b9b1cd0434953d8ac8ab7b4c87ada797e4e5340cdc60ed689fbdc388638dc90e010', '315', '2018-03-16 20:01:27', '2011-03-30 00:00:00', 'odin.jpg', 1, 2, 2018, NULL),
-(18, 'hah', 'haha', 'haha@gaga.hu', 'd751feadfab6b9be9edb55ed3da3b0b3b4fcd048359f6fa9865bdef462d754239fbf628c7435ff971f19935dfc9ee62da89d88f5d63b436a9e470e78a893d006', '689', '2018-03-16 20:09:40', '2018-02-27 00:00:00', '', 3, 2, 2018, NULL),
-(19, 'alba', 'balba', 'haka@maka.hu', '9eea2491457dbb32ebcded003fc88828431ab371658318a883a0d2fcde83a5990b41a74f0d62deec55bd02c437e7510588c0e78c062e746436097afca7c972a4', '568', '2018-03-16 20:11:41', '0000-00-00 00:00:00', '', 1, 2, 2018, NULL),
-(20, 'alba', 'bba', 'baba@mama.hu', 'b194a8f8bf282898ae6004488864db3d489ff18224d438f376de9b5e58e2aa6648386feac1d60ca132364ef1eeb29f374bec55b169f684896a4547d27a8ea0ad', '429', '2018-03-16 20:13:03', '0000-00-00 00:00:00', '', 1, 2, 2018, NULL),
-(21, 'David', 'Mavid', 'haha@fafafa.hu', 'c209dd5fd225d60f63bb9788e357d52bb7e0c72b22493cc328a485833c23d972716c420a72c9627fe272941c4de3f9d98cf2c91084f335ed1ab24045244c3031', '554', '2018-03-16 21:34:43', '2018-03-02 00:00:00', '', 1, 2, 2018, NULL),
-(22, 'Majom ', 'Béci', 'majom.beci@dodo.hu', '670bf663b8c43a9a599d4d7f5f26889fe8095440368f9101fc3e6adfe88ef62dca4a4f88fc022104abbfc3132628ce76b57e5ab2ff0345f7eaa1ffc2f88342da', '240', '2018-03-17 12:16:31', '1997-05-31 00:00:00', 'beci.jpg', 16, 2, NULL, NULL);
+(14, 'Nem', 'Neve', 'hej.do@monkeyisland.hu', '0a4f5ff3cd61c13ea6d5952fdeaf9ec64ef214bba046e0ffc1db0c174d54699f9aed556928aaaecf095b4f729c64bf900cb58e129daabe82d09219578162f27f', '424', '2018-03-24 09:19:22', '2018-03-07 00:00:00', NULL, 3, 2, NULL, NULL),
+(15, 'Prachetor', 'Montgomeri', 'jhoo.moho@gaka.de', 'd91d191b41f5ffb634d79658c7b05d8fdad0c1cb2d9c5d4ab8b526c12fc5b2cad0d51721a4cc4b8a4210529e396fa7c70952636e6270ef8d653bed05b984068d', '386', '2018-03-24 10:17:22', '1998-03-08 00:00:00', 'krosis.jpg', 2, 2, NULL, NULL),
+(16, 'Pedo', 'Pedro', 'pedobear@wunderland.de', '03e849dc836907665901f2272b56aaf1e480131acbb4d98dbb93570da1bd6c486fbe39565e2d4e444cb6416feb24e6113a306f0dddee6dcc3e4e3d891a19aaf0', '657', '2018-03-24 11:51:12', '1950-03-13 00:00:00', 'pbear.png', 6, 2, NULL, NULL);
 
 --
 -- Eseményindítók `teacher`
@@ -439,19 +454,21 @@ CREATE TABLE `teacher_eval` (
   `teacher_eval` text,
   `crd_eval` timestamp NULL DEFAULT NULL,
   `teacher_id` int(11) NOT NULL,
-  `eval_grade` year(4) DEFAULT NULL
+  `eval_grade` year(4) DEFAULT NULL,
+  `updated` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `teacher_eval`
 --
 
-INSERT INTO `teacher_eval` (`id`, `teacher_eval`, `crd_eval`, `teacher_id`, `eval_grade`) VALUES
-(1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap ', '2017-08-15 22:00:00', 1, 2017),
-(2, 'into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu', '2017-08-15 22:00:00', 1, 2018),
-(3, 'Where does it come from?', '2017-08-15 22:00:00', 9, 2017),
-(4, 'Halobalo 999', '2018-03-16 23:06:37', 1, 2017),
-(5, 'Menjen mndenki a francba mostmar', '2018-03-16 23:07:07', 13, 2017);
+INSERT INTO `teacher_eval` (`id`, `teacher_eval`, `crd_eval`, `teacher_id`, `eval_grade`, `updated`) VALUES
+(2, 'into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu', '2017-08-15 22:00:00', 5, 2018, '2018-03-25 12:20:32'),
+(3, 'Where does it come from?', '2017-08-15 22:00:00', 9, 2017, NULL),
+(4, 'Halobalo 999sdfasfd', '2018-03-25 13:56:12', 0, NULL, NULL),
+(5, 'Menjen mndenki a francba mostmar', '2018-03-16 23:07:07', 13, 2017, NULL),
+(6, 'Majom győzelem\r\nitt', '2018-03-24 09:18:31', 1, 2017, '2018-03-25 15:46:30'),
+(7, 'Megrendítő a kiváncsiatlanságod idén is. és megy az update és még most is', '2018-03-25 12:29:09', 5, 2017, '2018-03-25 15:47:26');
 
 --
 -- Eseményindítók `teacher_eval`
@@ -459,6 +476,12 @@ INSERT INTO `teacher_eval` (`id`, `teacher_eval`, `crd_eval`, `teacher_id`, `eva
 DELIMITER $$
 CREATE TRIGGER `teacher_eval_BEFORE_INSERT` BEFORE INSERT ON `teacher_eval` FOR EACH ROW BEGIN
 	SET NEW.crd_eval = NOW();
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `teacher_eval_BEFORE_UPDATE` BEFORE UPDATE ON `teacher_eval` FOR EACH ROW BEGIN
+	SET NEW.updated = CURRENT_TIMESTAMP; 
 END
 $$
 DELIMITER ;
@@ -524,7 +547,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 ALTER TABLE `child`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_child_group1_idx` (`group_id`);
+  ADD KEY `fk_child_group1_idx` (`group_id`),
+  ADD KEY `fk_child_parent1_idx` (`parent_id`);
 
 --
 -- A tábla indexei `comment`
@@ -539,8 +563,7 @@ ALTER TABLE `comment`
 --
 ALTER TABLE `parent`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email_UNIQUE` (`email`),
-  ADD KEY `fk_parent_child1_idx` (`child_id`);
+  ADD UNIQUE KEY `email_UNIQUE` (`email`);
 
 --
 -- A tábla indexei `progress_post`
@@ -593,31 +616,31 @@ ALTER TABLE `todo_fields`
 -- AUTO_INCREMENT a táblához `child`
 --
 ALTER TABLE `child`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT a táblához `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `parent`
 --
 ALTER TABLE `parent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `progress_post`
 --
 ALTER TABLE `progress_post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT a táblához `school_group`
 --
 ALTER TABLE `school_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `suser`
@@ -629,13 +652,13 @@ ALTER TABLE `suser`
 -- AUTO_INCREMENT a táblához `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `teacher_eval`
 --
 ALTER TABLE `teacher_eval`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `todo_fields`
