@@ -2,17 +2,17 @@
 
 <div class="register-box-body">
     <div class="register-box-body">
-        <p class="login-box-msg">Edit Comment</p>
+        <p class="login-box-msg">Edit Report</p>
         <?php
         echo validation_errors();?>
-        <?php var_dump($comment_teachers);
-        foreach ($comment_teachers as $comment) {?>
+        <?php
+        var_dump($report_teachers); foreach ($report_teachers as $report) {?>
         <br>
         <div class="">
-            <form role="form" name="edit_comment_form" action="<?php echo 'teacher/edit_comment/'?>" method="post" enctype="multipart/form-data">
+            <form role="form" name="edit_report_form" action="<?php echo 'teacher/edit_report/'?>" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label>Comment</label>
-                    <textarea name="edit_comment_form" class="form-control" rows="3" placeholder="Enter ..."><?php echo $comment['teacher_comment']?></textarea>
+                    <label>Report of <?php echo "School year of ".$report['grade'] . " quarter: " . $report['quarter'] ?></label>
+                    <textarea name="edit_report_form" class="form-control document-text" rows="10" placeholder="Enter ..."><?php echo $report['progress_post']?></textarea>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="row">

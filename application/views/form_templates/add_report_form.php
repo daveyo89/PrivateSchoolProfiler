@@ -24,6 +24,16 @@
                     </select>
                 </label>
             </div>
+            <div class="form-group">
+                <label> Select Quarter
+                    <select name="report_quarter">
+                        <option></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </label>
+            </div>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">

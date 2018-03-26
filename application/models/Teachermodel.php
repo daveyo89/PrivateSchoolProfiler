@@ -89,6 +89,19 @@ class Teachermodel extends CI_Model
         return array();
     }
 
+    public function getReportById($id)
+    {
+        $sql = "SELECT * FROM privateschoolprofiler.progress_post 
+                WHERE id = " . $id . " ";
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            return $result;
+        }
+        return array();
+    }
+
     public function getChildrenByGrade($grade) {
         $sql = "SELECT * FROM child WHERE grade = ". $grade ." ";
 
@@ -114,7 +127,6 @@ class Teachermodel extends CI_Model
         }
         return array();
     }
-
 
     public function getProgressReportByTeacherId($id) {
         $sql = "SELECT pp.id, pp.progress_post, pp.child_id, pp.teacher_id, pp.crd_pp, pp.updated, pp.quarter, pp.grade pgrade,
@@ -149,8 +161,8 @@ class Teachermodel extends CI_Model
                 'progress_post' => $teacher_report,
                 'child_id' => $child_id,
                 'teacher_id' => $teacher_id,
+                'grade' => $grade,
                 'quarter' => $quarter,
-                'grade' => $grade
             );
             $this->db->insert('progress_post', $insertArray);
         }
@@ -160,6 +172,11 @@ class Teachermodel extends CI_Model
         $this->db->set('teacher_comment', $editData['teacher_comment']);
         $this->db->where('id', $id);
         $this->db->update('comment', $editData);
+    }
+    public function editReport($id, $editData) {
+        $this->db->set('progress_post', $editData['progress_post']);
+        $this->db->where('id', $id);
+        $this->db->update('progress_post', $editData);
     }
 
 }

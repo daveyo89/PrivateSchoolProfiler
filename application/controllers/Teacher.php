@@ -126,10 +126,10 @@ class Teacher extends CI_Controller
 
             $teacher_report = $this->input->post('teacher_report');
             $report_child_id = (int)$this->input->post('report_child_id');
-
+            $quarter = (int)$this->input->post('report_quarter');
             if (isset($teacher_report) && isset($report_child_id) && $this->form_validation->run() === TRUE) {
 
-                $this->Teachermodel->add_report($this->getMyId() ,$teacher_report, $report_child_id, $this->getGrade(), $this->getQuarter());
+                $this->Teachermodel->add_report($this->getMyId() ,$teacher_report, $report_child_id, $this->getGrade(), $quarter);
 
                 $this->load->view('suser/success', $output);
             }
@@ -137,6 +137,24 @@ class Teacher extends CI_Controller
             $this->load->view('teacher/add_report', $output);
         }
 
+    }
+
+    public function edit_report($id=-1)
+    {
+        if ($this->session->userdata('email') !== null && $this->session->userdata('role') == 'teacher') {
+            $id = (int)$id;
+            if ($id > 0) {
+                $this->session->set_userdata('selected_report_id', $id);
+            }
+            $output['report_teachers'] = $this->Teachermodel->getReportById($id);
+            $data = $this->editBuilder();
+            $selected_report_id = $this->session->userdata('selected_report_id');
+            if($data) {
+                $this->Teachermodel->editReport($selected_report_id, $data);
+                $this->load->view('suser/success', $output);
+            }
+            $this->load->view('teacher/edit_report', $output);
+        }
     }
 
     /**
@@ -148,24 +166,33 @@ class Teacher extends CI_Controller
     {
         $data = array();
 
-        $teacher_id = $this->input->post('teacher_id');
-        $child_id = $this->input->post('child_id');
-        $parent_id = $this->input->post('parent_id');
+        $teacher_id = (int)$this->input->post('teacher_id');
+        $child_id = (int)$this->input->post('child_id');
+        $parent_id = (int)$this->input->post('parent_id');
         $edit_comment = $this->input->post('edit_comment_form');
+        $edit_report = $this->input->post('edit_report_form');
+        $quarter = (int)$this->input->post('report_quarter');
 
 
-        if (isset($teacher_id) && $teacher_id != "") {
+        if (isset($teacher_id) && $teacher_id != "" && $teacher_id !== 0) {
             $data['teacher_id'] = $teacher_id;
         }
-        if (isset($child_id) && $child_id != "") {
+        if (isset($child_id) && $child_id != "" && $child_id !== 0) {
             $data['child_id'] = $child_id;
         }
-        if (isset($parent_id) && $parent_id != "") {
+        if (isset($parent_id) && $parent_id != "" && $parent_id !== 0) {
             $data['parent_id'] = $parent_id;
         }
         if (isset($edit_comment) && $edit_comment != "") {
             $data['teacher_comment'] = $edit_comment;
         }
+        if (isset($edit_report) && $edit_report != "") {
+            $data['progress_post'] = $edit_report;
+        }
+        if (isset($quarter) && $quarter != "" && $quarter !== 0) {
+            $data['quarter'] = $quarter;
+        }
+
 
         return $data;
     }

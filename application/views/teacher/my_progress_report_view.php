@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>Child Name</th>
                         <th>Date of Birth</th>
                         <th>Child Age</th>
-                        <th>Comment</th>
+                        <th>Report</th>
                         <th>Updated on</th>
                         <th>Q</th>
                         <th>Year</th>
