@@ -109,7 +109,7 @@ class Teacher extends CI_Controller
     public function my_progress_reports($id=-1) {
         if ($this->session->userdata('email') !== null && $id == $this->session->userdata('my_id')) {
             if ($this->session->userdata('role') == 'teacher') {
-                $output['dataset'] = $this->Teachermodel->getProgressReportByTeacherId($id);
+                $output['dataset'] = $this->Teachermodel->getProgressReportByTeacherId($id, $this->getGrade());
                 $output = $this->getAge($output);
                 $this->load->view('teacher/my_progress_report_view', $output);
             }

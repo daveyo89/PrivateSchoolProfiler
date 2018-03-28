@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h1 class="login-logo" href="">Wrong url data..</h1>
             <?php ?>
             <div class="full-width" style="text-align: center">
-                <a class="btn btn-danger" href="<?php echo base_url() . "HOME"?>">Back</a>
+                <a class="btn btn-danger" href="<?php echo base_url() . "home"?>">Back</a>
             </div>
         </div>
         </section>

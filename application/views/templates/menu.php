@@ -5,7 +5,7 @@
     <li>
         <a href="<?php print(base_url()) . "home" ?>"><i class="fa fa-home"></i> <span>Home</span></a>
     </li>
-
+<!--
     <li class="treeview">
         <a href="#">
             <i class="fa fa-building-o"></i> <span>School</span>
@@ -15,8 +15,8 @@
         </a>
         <ul class="treeview-menu">
 
-            <li><a href="<?php print(base_url()) . "info" ?>"><i class="fa fa-info-circle"></i> School Info</a></li>
-            <li><a href="<?php print(base_url()) . "contact" ?>"><i class="fa fa-envelope-o"></i>
+            <li><a href="<?php /* print(base_url()) . "info" ?>"><i class="fa fa-info-circle"></i> School Info</a></li>
+            <li><a href="<?php print(base_url()) . "contact" */?>"><i class="fa fa-envelope-o"></i>
                     <span>Contact</span></a></li>
 
         </ul>
@@ -32,4 +32,5 @@
         </a>
 
     </li>
+    -->
 </ul>

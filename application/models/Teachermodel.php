@@ -128,13 +128,14 @@ class Teachermodel extends CI_Model
         return array();
     }
 
-    public function getProgressReportByTeacherId($id) {
+    public function getProgressReportByTeacherId($id, $grade) {
         $sql = "SELECT pp.id, pp.progress_post, pp.child_id, pp.teacher_id, pp.crd_pp, pp.updated, pp.quarter, pp.grade pgrade,
 	   c.id cid, c.firstname, c.lastname, c.dob, c.group_id, c.picture_path, c.grade cgrade, c.deleted
 					FROM progress_post pp
                     LEFT JOIN child c ON(pp.child_id = c.id)
                     WHERE pp.teacher_id = " . $id . "
-                    AND deleted = 2 ";
+                    AND deleted = 2 
+                    AND c.grade = ". $grade ." ";
 
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {

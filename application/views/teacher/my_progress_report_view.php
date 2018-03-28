@@ -17,6 +17,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="content-wrapper">
         <section class="content-header">
+            <?php echo form_open(); ?>
+            <label class="label-default"> Change school year:
+                <input type="text" style="max-width: 15%; height: auto" name="grade_year" class="ion-information-circled"
+                       value="<?php if (isset($def_year))echo $def_year;?>" placeholder="">
+                <button type="submit" class="btn btn-primary btn-flat">Continue</button>
+            </label>
+            </form>
         </section>
         <?php $this->load->view('templates/options_button');?>
         <a class="btn btn-warning" href="<?php echo base_url() . "Teacher/add_report"?>">Add Report</a>
