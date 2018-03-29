@@ -6,6 +6,7 @@ class Parents extends CI_Controller
     {
         parent::__construct();
         $this->load->model(array('Parentmodel'));
+        $this->load->helper(array('parent'));
     }
 
 
@@ -13,12 +14,11 @@ class Parents extends CI_Controller
     {
         if ($this->session->userdata('email') !== null) {
             if ($this->session->userdata('role') == 'parent') {
-                $output['grade'] = $this->getGrade();
-
+                $output['grade'] = getsGrade();
                 $output['self_data'] = $this->getSelfData();
 
-                $output['all_grades'] = $this->Parentmodel->getAllChildrenGrade($this->getMyId());
-                $output['def_year'] = $this->getDefaultYear();
+                $output['all_grades'] = $this->Parentmodel->getAllChildrenGrade(getMyId());
+                $output['def_year'] = default_date();
                 if ($output) {
                     $this->load->view('parent/parent_options', $output);
                 } else {
@@ -46,45 +46,14 @@ class Parents extends CI_Controller
         }
     }
 
-
-    private function getDefaultYear() {
-        $date = explode('-', date('Y-m',time()));
-        $def_year = ((int)$date[1] < 9 ? $date[0]-1 : $date[0]);
-        return $def_year;
-    }
-
-    public function getGrade()
-    {
-        $grade = (int)$this->input->post('grade_year');
-
-        if (isset($grade) && $grade !== "" && $grade !== 0) {
-            $this->session->set_userdata('grade_year', $grade);
-             $grade = $this->session->userdata('grade_year');
-        } else {
-            $this->session->set_userdata('grade_year', $this->getDefaultYear());
-        }
-        return $grade;
-    }
-
     private function getSelfData()
     {
-        $email = $this->getEmail();
+        $email = getEmail();
         $result = $this->Parentmodel->getParentByEmail($email, $this->session->userdata('grade_year'));
         $this->session->set_userdata('my_class_id', $result[0]['sid']);
         $this->session->set_userdata('my_id', (int)$result[0]['id']);
 
         return $result;
-    }
-
-    private function getEmail()
-    {
-        $email = "'" . $this->session->userdata('email') . "'";
-
-        return $email;
-    }
-
-    private function getMyId() {
-        return (int)$this->session->userdata('my_id');
     }
 
     private function getMyChildren() {
