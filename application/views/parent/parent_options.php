@@ -26,9 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
 
 
-        <?php echo form_open('Parents'); ?>
+        <?php echo form_open('Parents') ; ?>
         <label class="label-default"> Select starting year
-            <select class="select2-container">
+            <select class="select2-container" name="grade_year">
                 <option name="grade_year"></option>
                 <?php foreach ($all_grades as $item) { ?>
                     <option name="grade_year" value="<?php echo $item['grade']?>"><?php echo $item['grade']?></option>

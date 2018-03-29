@@ -13,9 +13,10 @@ class Parents extends CI_Controller
     {
         if ($this->session->userdata('email') !== null) {
             if ($this->session->userdata('role') == 'parent') {
-                $this->session->set_userdata('grade_year', $this->getDefaultYear());
                 $output['grade'] = $this->getGrade();
+
                 $output['self_data'] = $this->getSelfData();
+
                 $output['all_grades'] = $this->Parentmodel->getAllChildrenGrade($this->getMyId());
                 $output['def_year'] = $this->getDefaultYear();
                 if ($output) {
@@ -58,9 +59,9 @@ class Parents extends CI_Controller
 
         if (isset($grade) && $grade !== "" && $grade !== 0) {
             $this->session->set_userdata('grade_year', $grade);
-            $grade = $this->session->userdata('grade_year');
+             $grade = $this->session->userdata('grade_year');
         } else {
-            $grade = $this->session->userdata('grade_year');
+            $this->session->set_userdata('grade_year', $this->getDefaultYear());
         }
         return $grade;
     }
