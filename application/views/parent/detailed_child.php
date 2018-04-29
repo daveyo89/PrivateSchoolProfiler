@@ -31,15 +31,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if (isset($child_info)) {
                 foreach ($child_info as $item) { ?>
                     <div class="container">
-                    <?php echo $item['progress_post'];
+                    <?php if (isset($item['progress_post'])) echo $item['progress_post'];
                     echo "<br>";
-                    echo " updated: ".$item['updated'];
+                    if (isset($item['updated'])) echo " updated: ".$item['updated'];
                     echo "<br>";
-                    echo " Q: " . $item['quarter'];
+                    if (isset($item['quarter'])) echo " Q: " . $item['quarter'];
                     ?></div>
 <br>
                <?php }}
-               else {
+               if (!isset($item['progress_post'])) {
                     echo "<h3>No reports to show</h3>";
                }
                 ?>
