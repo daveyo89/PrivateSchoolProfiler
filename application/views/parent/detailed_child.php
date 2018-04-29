@@ -27,7 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </section>
         <section class="content">
             <div class="content">
-                <?php if (isset($child_info['progress_post'])) {
+                <?php
+                if (isset($child_info)) {
                 foreach ($child_info as $item) { ?>
                     <div class="container">
                     <?php echo $item['progress_post'];
